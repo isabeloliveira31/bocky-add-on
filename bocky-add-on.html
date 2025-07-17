@@ -4,7 +4,6 @@
     <title>Bocky Popup Widget</title>
     <meta charset="utf-8">
     <meta name="description" content="Bocky Popup Widget">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         #bocky-icon * {
             font-family: 'Klavika';
@@ -223,15 +222,15 @@
         <div id="bocky-conversa-header">
             <a id="bocky-link-icon" class=".font-size-base" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
                 <img src="https://app-backend-tyifxu7gn33ba.azurewebsites.net/assets/newlogo-dd8b8e46.png">
-                <p>Bocky</p>
+                <p class=".heading-6">Bocky</p>
             </a>
             <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <i class="fa-solid fa-minus" style="font-size: 15px;"></i>
             </button>
         </div>
         <div id="bocky-conversa-escolher-topico">
-            <div id="bocky-conversa-dsi" onclick="selecaoTopico('dsi')">DSI</div>
-            <div id="bocky-conversa-maisDigital" onclick="selecaoTopico('maisDigital')">maisDigital</div>
+            <div id="bocky-conversa-dsi" class=".font-size.base" onclick="selecaoTopico('dsi')" >DSI</div>
+            <div id="bocky-conversa-maisDigital" class=".font-size-base"onclick="selecaoTopico('maisDigital')">maisDigital</div>
         </div>
         <div id="historico-conversa">
         </div>
