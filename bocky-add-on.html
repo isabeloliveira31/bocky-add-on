@@ -184,6 +184,13 @@
         .mensagem-conversa-user{
             align-self: flex-end;
         }
+
+        #historico-conversa > p {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 14px;
+            margin-left: 43px;
+        }
     </style>
   </head>
   <body>
@@ -201,6 +208,7 @@
             </button>
         </div>
         <div id="historico-conversa">
+            <p class=".font-size-base">Pergunta-me o que quiseres!</p>
         </div>
         <div id="bocky-widget-prompt-section">
             <textarea id="bocky-widget-prompt" class=".font-size-small" rows="2" cols="27" placeholder="Escreve uma mensagem para o Bocky" required="required" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}"></textarea>
