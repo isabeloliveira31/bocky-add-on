@@ -154,39 +154,6 @@
             cursor: pointer;
         }
 
-        #bocky-conversa-escolher-topico {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            height: 30px;
-            width: 100%;
-            height: 40px;
-            top: 10px;
-            margin-bottom: 10px;
-        }
-
-        #bocky-conversa-dsi {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: #A92629 solid 1px;
-            cursor: pointer;
-        }
-
-        #bocky-conversa-maisDigital {
-            width: 50%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: #A92629 solid 1px;
-            cursor: pointer;
-        }
         #historico-conversa {
             max-height: 270px;
             height: auto;
@@ -233,14 +200,10 @@
                 <i class="fa-solid fa-minus" style="font-size: 15px;"></i>
             </button>
         </div>
-        <div id="bocky-conversa-escolher-topico">
-            <div id="bocky-conversa-dsi" class=".font-size.base" onclick="selecaoTopico('dsi')" >DSI</div>
-            <div id="bocky-conversa-maisDigital" class=".font-size-base"onclick="selecaoTopico('maisDigital')">maisDigital</div>
-        </div>
         <div id="historico-conversa">
         </div>
         <div id="bocky-widget-prompt-section">
-            <textarea id="bocky-widget-prompt" class=".font-size-small" rows="2" cols="27" placeholder="Escolhe um tópico para o Bocky" required="required" aria-label="Write Bocky prompt" disabled=true style="cursor: not-allowed;" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}"></textarea>
+            <textarea id="bocky-widget-prompt" class=".font-size-small" rows="2" cols="27" placeholder="Escreve uma mensagem para o Bocky" required="required" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}"></textarea>
             <button type="button" id ="send-prompt-button" onclick="sendPrompt()" style="cursor: not-allowed;" disabled=true>
                 <i class=" fa-solid fa-paper-plane" id="bocky-widget-prompt-send-icon" style="color: #E9ECEF; font-size: 20px;" aria-label="Submit Bocky Prompt"></i>
             </button>
@@ -257,22 +220,8 @@
             document.getElementById('bocky-conversa').classList.remove('open');
         }
 
-        function selecaoTopico(topico){
-            document.getElementById('bocky-widget-prompt').placeholder = "Escreve uma mensagem para o Bocky";
-            document.getElementById('bocky-widget-prompt').disabled = false;
-            document.getElementById('bocky-widget-prompt').style.cursor = 'pointer';
-            if (topico == 'dsi'){
-                document.getElementById('bocky-conversa-dsi').style.background = '#A92629';
-                document.getElementById('bocky-conversa-dsi').style.color = 'white';
-                document.getElementById('bocky-conversa-maisDigital').style.background = 'transparent';
-                document.getElementById('bocky-conversa-maisDigital').style.color = 'black';
-            }
-            else if (topico == 'maisDigital'){
-                document.getElementById('bocky-conversa-dsi').style.background = 'transparent';
-                document.getElementById('bocky-conversa-dsi').style.color = 'black';
-                document.getElementById('bocky-conversa-maisDigital').style.background = '#A92629';
-                document.getElementById('bocky-conversa-maisDigital').style.color = 'white';
-            }
+        function selecaoTopico(){
+            // TODO
         }
 
         function sendPrompt(){
@@ -284,6 +233,7 @@
 
             const prompt = document.getElementById('bocky-widget-prompt').value;
             document.getElementById('bocky-widget-prompt').value = '';
+            document.getElementById('bocky-widget-prompt').dispatchEvent(new Event('input')); // trrigger input action (to disable send button since the text box has just been emptied)
             const mensagem = document.createElement('div');
             mensagem.textContent = prompt;
             mensagem.classList.add('mensagem-conversa');
@@ -305,12 +255,6 @@
 
         prompt_textarea.addEventListener("input", () => {
             let hasContent = prompt_textarea.value.trim().length > 0;
-            const isDSIselected = getComputedStyle(document.getElementById('bocky-conversa-dsi')).backgroundColor == 'rgb(169, 38, 41)' ? true : false;
-            const isMaisDigitalSelected = getComputedStyle(document.getElementById('bocky-conversa-maisDigital')).backgroundColor == 'rgb(169, 38, 41)' ? true : false;
-            if (hasContent && !isDSIselected && !isMaisDigitalSelected){
-                // if no conversation topic is selected then we can't submit the prompt
-                hasContent = false;
-            }
             document.getElementById('send-prompt-button').disabled = hasContent ? false : true;
             document.getElementById('send-prompt-button').style.cursor = hasContent ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = hasContent ? '#A92629': '#E9ECEF';
