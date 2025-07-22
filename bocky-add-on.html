@@ -235,8 +235,8 @@
         async function sendPrompt(){
             console.log("CHECKING IF USER IS LOGGED IN...");
             document.getElementById('send-prompt-button').style.cursor ='wait';
-            const isSignedIn = await isSignedIn();
-            if (!isSignedIn) {
+            const signedIn = await isSignedIn();
+            if (!signedIn) {
                 alert("Please sign in to use Bocky.");
                 return;
             }
