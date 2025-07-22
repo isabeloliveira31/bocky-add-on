@@ -283,43 +283,44 @@
         });
 
         // MSAL Authentication
+        document.addEventListener("DOMContentLoaded", () => {
+            // configure MSAL credentials
+            const msalConfig = {
+                auth: {
+                    clientId: "4fe15b48-5867-4eb4-a575-355d7316cefd",
+                    authority: "01c74dcc-1e91-4c9c-b3a0-88030994bf82",
+                    redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
+                },
+                cache: {
+                    cacheLocation: "sessionStorage", // or "localStorage"
+                    storeAuthStateInCookie: false
+                }
+            };
 
-        // configure MSAL credentials
-        const msalConfig = {
-            auth: {
-                clientId: "4fe15b48-5867-4eb4-a575-355d7316cefd",
-                authority: "01c74dcc-1e91-4c9c-b3a0-88030994bf82",
-                redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
-            },
-            cache: {
-                cacheLocation: "sessionStorage", // or "localStorage"
-                storeAuthStateInCookie: false
+            const msalInstance = new msal.PublicClientApplication(msalConfig);
+            let account = null;
+
+            async function isSignedIn() {
+                const accounts = msalInstance.getAllAccounts();
+                console.log("checking the logins....");
+                if (accounts.length > 0) {
+                    account = accounts[0];
+                    console.log("USER WAS ALREADY SIGNED IN!");
+                    return true;
+                }
+                try {
+                    console.log("SHOWING POPUP TO LOG IN...");
+                    const loginResponse = await msalInstance.loginPopup({
+                        scopes: ["User.Read"]
+                    });
+                    account = loginResponse.account;
+                    return true;
+                } catch (err) {
+                    console.error("No user signed in", err);
+                    return false;
+                }
             }
-        };
-
-        const msalInstance = new msal.PublicClientApplication(msalConfig);
-
-        let account = null;
-        async function isSignedIn() {
-        const accounts = msalInstance.getAllAccounts();
-        console.log("checking the logins....");
-        if (accounts.length > 0) {
-            account = accounts[0];
-            console.log("USER WAS ALREADY SIGNED IN!");
-            return true;
-        }
-        try {
-            console.log("SHOWING POPUP TO LOG IN...");
-            const loginResponse = await msalInstance.loginPopup({
-                scopes: ["User.Read"]
-            });
-            account = loginResponse.account;
-            return true;
-        } catch (err) {
-            console.error("No user signed in", err);
-            return false;
-        }
-        }
+        });
     </script>
   </body>
 </html>
