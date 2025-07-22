@@ -233,14 +233,12 @@
         }
 
         async function sendPrompt(){
-            console.log("CHECKING IF USER IS LOGGED IN...");
             document.getElementById('send-prompt-button').style.cursor ='wait';
             const signedIn = await isSignedIn();
             if (!signedIn) {
-                alert("Please sign in to use Bocky.");
+                alert("Tens de autenticar-te para usares o Bocky.");
                 return;
             }
-            console.log("CONFIRMED: USER IS LOGGED IN.");
             document.getElementById('send-prompt-button').style.cursor ='pointer';
 
             // definir tempo para a animação de clicar o botão de enviar
@@ -302,14 +300,11 @@
 
         async function isSignedIn() {
             const accounts = msalInstance.getAllAccounts();
-            console.log("checking the logins....");
             if (accounts.length > 0) {
                 account = accounts[0];
-                console.log("USER WAS ALREADY SIGNED IN!");
                 return true;
             }
             try {
-                console.log("SHOWING POPUP TO LOG IN...");
                 const loginResponse = await msalInstance.loginPopup({
                     scopes: ["User.Read"]
                 });
