@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="description" content="Bocky Popup Widget">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://alcdn.msftauth.net/lib/1.3.2/js/msal.js"></script>
+    <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.38.2/js/msal-browser.min.js"></script>
     <style>
         body {
             background: transparent;
@@ -288,7 +288,7 @@
             const msalConfig = {
                 auth: {
                     clientId: "4fe15b48-5867-4eb4-a575-355d7316cefd",
-                    authority: "01c74dcc-1e91-4c9c-b3a0-88030994bf82",
+                    authority: "https://login.microsoftonline.com/01c74dcc-1e91-4c9c-b3a0-88030994bf82",
                     redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
                 },
                 cache: {
