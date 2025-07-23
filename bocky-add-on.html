@@ -148,10 +148,10 @@
 
         #bocky-conversa-close {
             border:none; 
-            background: transparent;
-            position: absolute;
-            top: 15px;
-            right: 15px;
+            background: none;
+            padding-right: 15px;
+            margin-top: 10px;
+            align-self: self-start;
             cursor: pointer;
         }
 
@@ -192,6 +192,61 @@
             font-size: 11px;
             margin-left: 36px;
         }
+
+        #choose-bocky-engine{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 5px;
+            background-color: transparent;
+        }
+
+        #choose-bocky-engine .selected{
+            background-color: #A79869;
+        }
+
+        .bocky-engine {
+            border-radius: 13%;
+            border: none;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            overflow: visible;
+            gap: 2px;
+            transition: transform 0.3s ease, opacity 0.6s ease;
+            transform-origin: bottom right;
+        }
+
+        .bocky-engine img {
+            padding-top: 2px;
+            margin: 0px;
+            background-color: transparent;
+            max-width: 110%;
+            max-height: 110%;
+            overflow: hidden;
+        }
+
+        .bocky-engine p {
+            padding-bottom: 2px;
+            padding-left: 3px;
+            padding-right: 3px;
+            margin: 0px;
+            font-size: 9px;
+            color: black;
+            background-color: transparent;
+        }
+
+        #aviso-autenticacao-necessaria{
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            display: none;
+        }
     </style>
   </head>
   <body>
@@ -205,11 +260,22 @@
                 <img src="https://app-backend-tyifxu7gn33ba.azurewebsites.net/assets/newlogo-dd8b8e46.png">
                 <p class=".heading-6">Bocky</p>
             </a>
+            <div id="choose-bocky-engine">
+                <button class="bocky-engine" id="bocky-engine-copilot" type="button" onclick="chooseBockyEngine('copilot')" aria-label="Select Bocky powered by Copilot">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Microsoft_Copilot_Icon.svg/1200px-Microsoft_Copilot_Icon.svg.png">
+                    <p>Copilot</p>
+                </button>
+                <button class="bocky-engine selected" id="bocky-engine-traditional" type="button" onclick="chooseBockyEngine('traditional')" aria-label="Select traditional Bocky">
+                    <img src="https://app-backend-tyifxu7gn33ba.azurewebsites.net/assets/newlogo-dd8b8e46.png">
+                    <p>Traditional</p>
+                </button>
+            </div>
             <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <i class="fa-solid fa-minus" style="font-size: 15px; color: black;"></i>
             </button>
         </div>
         <div id="historico-conversa">
+            <p id="aviso-autenticacao-necessaria">Tens de autenticar-te para poderes usar o Bocky!</p>
             <!-- secção onde se pode ver as mensagens anteriores-->
             <p class=".font-size-base">Pergunta-me o que quiseres!</p>
         </div>
@@ -232,13 +298,26 @@
             document.getElementById('bocky-conversa').classList.remove('open');
         }
 
+        function chooseBockyEngine(engine){
+            if (engine == 'traditional'){
+                document.getElementById('bocky-engine-traditional').classList.add('selected');
+                document.getElementById('bocky-engine-copilot').classList.remove('selected');
+            } else if (engine == 'copilot') {
+                document.getElementById('bocky-engine-copilot').classList.add('selected');
+                document.getElementById('bocky-engine-traditional').classList.remove('selected');
+            }
+        }
+
         async function sendPrompt(){
             document.getElementById('send-prompt-button').style.cursor ='wait';
             const signedIn = await isSignedIn();
             if (!signedIn) {
-                alert("Tens de autenticar-te para usares o Bocky.");
+                document.getElementById('aviso-autenticacao-necessaria').style.display('block');
+                document.getElementById('bocky-conversa').style.backgroundColor('blue');
+                alert('autentica-te!');
                 return;
             }
+            document.getElementById('aviso-autenticacao-necessaria').style.display('none');
             document.getElementById('send-prompt-button').style.cursor ='pointer';
 
             // definir tempo para a animação de clicar o botão de enviar
@@ -290,7 +369,7 @@
                 redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
             },
             cache: {
-                cacheLocation: "sessionStorage", // or "localStorage"
+                cacheLocation: "sessionStorage",
                 storeAuthStateInCookie: false
             }
         };
