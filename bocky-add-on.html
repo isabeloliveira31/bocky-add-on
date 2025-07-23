@@ -318,6 +318,7 @@
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
             document.getElementById('bocky-widget-instructions').classList.remove('warning');
             document.getElementById('send-prompt-button').style.cursor ='pointer';
+            document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
 
             // definir tempo para a animação de clicar o botão de enviar
             const botaoEnviar = document.getElementById('send-prompt-button');
@@ -351,11 +352,21 @@
         const prompt_textarea = document.getElementById('bocky-widget-prompt');
 
         // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
-        prompt_textarea.addEventListener("input", () => {
-            let hasContent = prompt_textarea.value.trim().length > 0;
-            document.getElementById('send-prompt-button').disabled = hasContent ? false : true;
-            document.getElementById('send-prompt-button').style.cursor = hasContent ? 'pointer' : 'not-allowed';
-            document.getElementById('bocky-widget-prompt-send-icon').style.color = hasContent ? '#A92629': '#E9ECEF';
+        prompt_textarea.addEventListener("input", async () => {
+            let canSendPrompt = prompt_textarea.value.trim().length > 0;
+            const signedIn = await isSignedIn();
+            if (!signedIn) {
+                document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
+                document.getElementById('bocky-widget-instructions').classList.add('warning');
+                canSendPrompt = false;
+            }
+            else{
+                document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
+                document.getElementById('bocky-widget-instructions').classList.remove('warning');
+            }
+            document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
+            document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
+            document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
         });
 
         // MSAL Authentication
