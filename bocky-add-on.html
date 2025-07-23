@@ -186,11 +186,17 @@
             align-self: flex-end;
         }
 
-        #historico-conversa > p {
+        #bocky-widget-instructions {
             text-transform: uppercase;
             font-weight: bold;
             font-size: 11px;
-            margin-left: 36px;
+            margin-left: 30px;
+            margin-right: 65px;
+        }
+
+        #bocky-widget-instructions.warning{
+            font-size: 13px;
+            color: #A92629;            
         }
 
         #choose-bocky-engine{
@@ -198,7 +204,7 @@
             flex-direction: row;
             justify-content: center;
             gap: 5px;
-            background-color: transparent;
+            background: transparent;
         }
 
         #choose-bocky-engine .selected{
@@ -240,13 +246,6 @@
             color: black;
             background-color: transparent;
         }
-
-        #aviso-autenticacao-necessaria{
-            font-size: 20px;
-            font-weight: bold;
-            color: black;
-            display: none;
-        }
     </style>
   </head>
   <body>
@@ -275,9 +274,8 @@
             </button>
         </div>
         <div id="historico-conversa">
-            <p id="aviso-autenticacao-necessaria">Tens de autenticar-te para poderes usar o Bocky!</p>
             <!-- secção onde se pode ver as mensagens anteriores-->
-            <p class=".font-size-base">Pergunta-me o que quiseres!</p>
+            <p id="bocky-widget-instructions" class=".font-size-base">Pergunta-me o que quiseres!</p>
         </div>
         <div id="bocky-widget-prompt-section">
             <!-- widget's bottom section - contains the user's input textbox and the send button -->
@@ -312,12 +310,12 @@
             document.getElementById('send-prompt-button').style.cursor ='wait';
             const signedIn = await isSignedIn();
             if (!signedIn) {
-                document.getElementById('aviso-autenticacao-necessaria').style.display('block');
-                document.getElementById('bocky-conversa').style.backgroundColor('blue');
-                alert('autentica-te!');
+                document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
+                document.getElementById('bocky-widget-instructions').classList.add('warning');
                 return;
             }
-            document.getElementById('aviso-autenticacao-necessaria').style.display('none');
+            document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
+            document.getElementById('bocky-widget-instructions').classList.remove('warning');
             document.getElementById('send-prompt-button').style.cursor ='pointer';
 
             // definir tempo para a animação de clicar o botão de enviar
