@@ -400,44 +400,6 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
         }
-
-        function fetchTokenAndSendTraditionalBockyRequest(prompt){
-            const account = msalInstance.getAllAccounts()[0];
-            const accessTokenRequest = {
-                scopes: ["user.read"],
-                account: account,
-            }
-            msal.PublicClientApplication
-            .acquireTokenSilent(accessTokenRequest)
-            .then(function (accessTokenResponse) {
-                // Acquire token silent success
-                let accessToken = accessTokenResponse.accessToken;
-                // Call Bocky
-                // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
-                return accessToken;
-            })
-            .catch(function (error) {
-                //Acquire token silent failure, and send an interactive request
-                if (error instanceof InteractionRequiredAuthError) {
-                msal.PublicClientApplication
-                    .acquireTokenPopup(accessTokenRequest)
-                    .then(function (accessTokenResponse) {
-                    // Acquire token interactive success
-                    let accessToken = accessTokenResponse.accessToken;
-                    // Call Bocky
-                    // TODO REQUEST WITH THE TOKEN (accessToken)
-                    return accessToken;
-                    })
-                    .catch(function (error) {
-                    // Acquire token interactive failure
-                    console.log(error);
-                    return null;
-                    });
-                }
-                console.log(error);
-                return null;
-            });
-        }
     
         function sendCopilotBockyRequest(prompt){
             // TODO COpilot Request and return response
@@ -499,6 +461,44 @@
                 }
                 return false;
             }
+        }
+
+                function fetchTokenAndSendTraditionalBockyRequest(prompt){
+            const account = msalInstance.getAllAccounts()[0];
+            const accessTokenRequest = {
+                scopes: ["user.read"],
+                account: account,
+            }
+            msalInstance
+            .acquireTokenSilent(accessTokenRequest)
+            .then(function (accessTokenResponse) {
+                // Acquire token silent success
+                let accessToken = accessTokenResponse.accessToken;
+                // Call Bocky
+                // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
+                return accessToken;
+            })
+            .catch(function (error) {
+                //Acquire token silent failure, and send an interactive request
+                if (error instanceof InteractionRequiredAuthError) {
+                msalInstance
+                    .acquireTokenPopup(accessTokenRequest)
+                    .then(function (accessTokenResponse) {
+                    // Acquire token interactive success
+                    let accessToken = accessTokenResponse.accessToken;
+                    // Call Bocky
+                    // TODO REQUEST WITH THE TOKEN (accessToken)
+                    return accessToken;
+                    })
+                    .catch(function (error) {
+                    // Acquire token interactive failure
+                    console.log(error);
+                    return null;
+                    });
+                }
+                console.log(error);
+                return null;
+            });
         }
     </script>
   </body>
