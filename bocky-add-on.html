@@ -407,7 +407,7 @@
                 scopes: ["user.read"],
                 account: account,
             }
-            PublicClientApplication
+            msal.PublicClientApplication
             .acquireTokenSilent(accessTokenRequest)
             .then(function (accessTokenResponse) {
                 // Acquire token silent success
@@ -419,7 +419,7 @@
             .catch(function (error) {
                 //Acquire token silent failure, and send an interactive request
                 if (error instanceof InteractionRequiredAuthError) {
-                PublicClientApplication
+                msal.PublicClientApplication
                     .acquireTokenPopup(accessTokenRequest)
                     .then(function (accessTokenResponse) {
                     // Acquire token interactive success
