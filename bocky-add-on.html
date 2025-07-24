@@ -477,7 +477,11 @@
                 let accessToken = accessTokenResponse.accessToken;
                 // Call Bocky
                 // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
-                console.log("SILENT TOKEN AQUIRED: ", accessToken);
+                if (!accessToken) {
+                    console.error("No token returned!");
+                } else {
+                    console.log("SILENT TOKEN ACQUIRED:", accessToken);
+                }
                 return accessToken;
             })
             .catch(function (error) {
@@ -490,7 +494,11 @@
                     let accessToken = accessTokenResponse.accessToken;
                     // Call Bocky
                     // TODO REQUEST WITH THE TOKEN (accessToken)
-                    console.log("POPUP TOKEN AQUIRED: ", accessToken);
+                    if (!accessToken) {
+                    console.error("No token returned!");
+                    } else {
+                        console.log("POPUP TOKEN ACQUIRED:", accessToken);
+                    }
                     return accessToken;
                     })
                     .catch(function (error) {
