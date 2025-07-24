@@ -340,7 +340,8 @@
             const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
              
             if(useTraditionalBockyEngine){
-                //const response = await fetchTokenAndSendTraditionalBockyRequest(prompt); // TODO handle null values
+                const response = await fetchTokenAndSendTraditionalBockyRequest(prompt); // TODO handle null values
+                console.log(response);
                 drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
             }
             else {
@@ -374,6 +375,8 @@
             mensagem.classList.add('mensagem-conversa-user');
             mensagem.classList.add('.font-size-small');
             document.getElementById('historico-conversa').appendChild(mensagem);
+            // update scroll position to the latest message
+            document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
         }
         
         function drawResponseText(response, engine){
@@ -396,8 +399,6 @@
             mensageBoxBocky.appendChild(iconBockyEngine);
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
-            // update scroll position to the latest message
-            document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
         }
 
         function fetchTokenAndSendTraditionalBockyRequest(prompt){
@@ -412,8 +413,8 @@
                 // Acquire token silent success
                 let accessToken = accessTokenResponse.accessToken;
                 // Call Bocky
-                // TODO REQUEST WITH THE TOKEN (accessToken)
-                return 'respostadoBocky';
+                // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
+                return accessToken;
             })
             .catch(function (error) {
                 //Acquire token silent failure, and send an interactive request
@@ -425,7 +426,7 @@
                     let accessToken = accessTokenResponse.accessToken;
                     // Call Bocky
                     // TODO REQUEST WITH THE TOKEN (accessToken)
-                    return 'respotadoBocky';
+                    return accessToken;
                     })
                     .catch(function (error) {
                     // Acquire token interactive failure
@@ -448,16 +449,6 @@
         // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
         prompt_textarea.addEventListener("input", async () => {
             let canSendPrompt = prompt_textarea.value.trim().length > 0;
-            const signedIn = await isSignedIn();
-            if (!signedIn) {
-                document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
-                document.getElementById('bocky-widget-instructions').classList.add('warning');
-                canSendPrompt = false;
-            }
-            else{
-                document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
-                document.getElementById('bocky-widget-instructions').classList.remove('warning');
-            }
             document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
             document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
@@ -488,13 +479,24 @@
                 return true;
             }
             try {
-                const loginResponse = await msalInstance.loginPopup({
-                    scopes: ["User.Read"]
+                const silentLoginResponse = await msalInstance.ssoSilent({
+                    scopes: ["User.Read"],
                 });
-                account = loginResponse.account;
+                account = silentLoginResponse.account;
+                console.log("Sessão silenciosa bem-sucedida: ", account);
                 return true;
-            } catch (err) {
-                console.error("No user signed in", err);
+            } catch (error) {
+                console.warn("Silent auth failed, tring regular auth");
+                try {
+                    const loginResponse = await msalInstance.loginPopup({
+                        scopes: ["User.Read"]
+                    });
+                    account = loginResponse.account;
+                    return true;
+                } catch (err) {
+                    console.error("No user signed in", err);
+                    return false;
+                }
                 return false;
             }
         }
