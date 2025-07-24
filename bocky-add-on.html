@@ -399,6 +399,7 @@
             mensageBoxBocky.appendChild(iconBockyEngine);
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
+            document.getElementById('historico-conversa').scrollTop += 50;
         }
     
         function sendCopilotBockyRequest(prompt){
@@ -463,7 +464,7 @@
             }
         }
 
-                function fetchTokenAndSendTraditionalBockyRequest(prompt){
+        function fetchTokenAndSendTraditionalBockyRequest(prompt){
             const account = msalInstance.getAllAccounts()[0];
             const accessTokenRequest = {
                 scopes: ["user.read"],
@@ -476,6 +477,7 @@
                 let accessToken = accessTokenResponse.accessToken;
                 // Call Bocky
                 // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
+                console.log("SILENT TOKEN AQUIRED: ", accessToken);
                 return accessToken;
             })
             .catch(function (error) {
@@ -488,6 +490,7 @@
                     let accessToken = accessTokenResponse.accessToken;
                     // Call Bocky
                     // TODO REQUEST WITH THE TOKEN (accessToken)
+                    console.log("POPUP TOKEN AQUIRED: ", accessToken);
                     return accessToken;
                     })
                     .catch(function (error) {
