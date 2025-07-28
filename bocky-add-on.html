@@ -348,7 +348,7 @@
                         console.error("Failed at getting a response from Traditional Bocky.");
                         return;
                     }
-                    drawResponseText(response, 'traditional');
+                    drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
                 }
                 else {
                     const response = await sendCopilotBockyRequest(prompt);
@@ -494,7 +494,7 @@
                 } else {
                     console.log("Sucessfully got user's token silently");
                 }
-                return "Hello I'm Traditional Bocky!";
+                return accessToken;
             })
             .catch(function (error) {
                 //Acquire token silent failure, and send an interactive request
@@ -509,7 +509,7 @@
                     if (!accessToken) {
                         console.error("Failed at getting user's authentication token.");
                     }
-                    return "Hello I'm Traditional Bocky!";
+                    return accessToken;
                     })
                     .catch(function (error) {
                     // Acquire token interactive failure
