@@ -322,7 +322,7 @@
 
         async function sendPrompt() {
             document.getElementById('send-prompt-button').style.cursor ='wait';
-            const signedIn = true;//await isSignedIn();
+            const signedIn = await isSignedIn();
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
@@ -407,10 +407,6 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
-        }
-    
-        function sendCopilotBockyRequest(prompt){
-            // TODO COpilot Request and return response
         }
 
         // Event listners
@@ -517,6 +513,10 @@
                 console.log(error);
                 return null;
             });
+        }
+    
+        function sendCopilotBockyRequest(prompt){
+            // TODO COpilot Request and return response
         }
     </script>
   </body>
