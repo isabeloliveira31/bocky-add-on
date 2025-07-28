@@ -343,13 +343,20 @@
                 const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
                 
                 if(useTraditionalBockyEngine){
-                    const response = await fetchTokenAndSendTraditionalBockyRequest(prompt); // TODO handle null values
-                    console.log(response);
-                    drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
+                    const response = await fetchTokenAndSendTraditionalBockyRequest(prompt);
+                    if (response == null){
+                        console.error("Failed at getting a response from Traditional Bocky.");
+                        return;
+                    }
+                    drawResponseText(response, 'traditional');
                 }
                 else {
-                    //const response = await sendCopilotBockyRequest(prompt); // TODO handle null values
-                    drawResponseText("Hello I'm Copilot Bocky!", 'copilot');
+                    const response = await sendCopilotBockyRequest(prompt);
+                    if (response == null){
+                        console.error("Failed at getting a response from Copilot Bocky.");
+                        return;
+                    }
+                    drawResponseText(response, 'copilot');
                 }
             } else {
                 document.getElementById('send-prompt-button').style.cursor ='not-allowed';
@@ -442,6 +449,7 @@
             const accounts = msalInstance.getAllAccounts();
             if (accounts.length > 0) {
                 account = accounts[0];
+                console.log("User is already logged in, no need to authenticate.")
                 return true;
             }
             try {
@@ -449,18 +457,19 @@
                     scopes: ["User.Read"],
                 });
                 account = silentLoginResponse.account;
-                console.log("Sessão silenciosa bem-sucedida: ", account);
+                console.log("Sucessful silent auth: ", account);
                 return true;
             } catch (error) {
-                console.warn("Silent auth failed, tring regular auth");
+                console.warn("Silent auth failed, trying popup auth");
                 try {
                     const loginResponse = await msalInstance.loginPopup({
                         scopes: ["User.Read"]
                     });
                     account = loginResponse.account;
+                    console.log("Sucessful popup auth: ", account);
                     return true;
                 } catch (err) {
-                    console.error("No user signed in", err);
+                    console.error("Popup auth failed: ", err);
                     return false;
                 }
                 return false;
@@ -481,11 +490,11 @@
                 // Call Bocky
                 // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
                 if (!accessToken) {
-                    console.error("No token returned!");
+                    console.warn("Failed at getting silent authentication token, trying to get with popup");
                 } else {
-                    console.log("SILENT TOKEN ACQUIRED:", accessToken);
+                    console.log("Sucessfully got user's token silently");
                 }
-                return accessToken;
+                return "Hello I'm Traditional Bocky!";
             })
             .catch(function (error) {
                 //Acquire token silent failure, and send an interactive request
@@ -498,11 +507,9 @@
                     // Call Bocky
                     // TODO REQUEST WITH THE TOKEN (accessToken)
                     if (!accessToken) {
-                        console.error("No token returned!");
-                    } else {
-                        console.log("POPUP TOKEN ACQUIRED:", accessToken);
+                        console.error("Failed at getting user's authentication token.");
                     }
-                    return accessToken;
+                    return "Hello I'm Traditional Bocky!";
                     })
                     .catch(function (error) {
                     // Acquire token interactive failure
@@ -517,6 +524,7 @@
     
         function sendCopilotBockyRequest(prompt){
             // TODO Copilot Request and return response
+            return "Hello I'm Copilot Bocky!";
         }
     </script>
   </body>
