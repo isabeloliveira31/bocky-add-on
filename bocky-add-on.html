@@ -322,7 +322,7 @@
 
         async function sendPrompt() {
             document.getElementById('send-prompt-button').style.cursor ='wait';
-            const signedIn = await isSignedIn();
+            const signedIn = true;//await isSignedIn();
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
@@ -330,23 +330,30 @@
             }
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
             document.getElementById('bocky-widget-instructions').classList.remove('warning');
-            document.getElementById('send-prompt-button').style.cursor ='pointer';
-            document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
 
-            sendButtonAnimation();
-            const prompt = getPromptAndClearInputTextbox();
-            drawUserText(prompt);
+            const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
+            if (promptIsntEmpty){
+                document.getElementById('send-prompt-button').style.cursor ='pointer';
+                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
 
-            const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
-             
-            if(useTraditionalBockyEngine){
-                const response = await fetchTokenAndSendTraditionalBockyRequest(prompt); // TODO handle null values
-                console.log(response);
-                drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
-            }
-            else {
-                //const response = await sendCopilotBockyRequest(prompt); // TODO handle null values
-                drawResponseText("Hello I'm Copilot Bocky!", 'copilot');
+                sendButtonAnimation();
+                const prompt = getPromptAndClearInputTextbox();
+                drawUserText(prompt);
+
+                const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
+                
+                if(useTraditionalBockyEngine){
+                    const response = await fetchTokenAndSendTraditionalBockyRequest(prompt); // TODO handle null values
+                    console.log(response);
+                    drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
+                }
+                else {
+                    //const response = await sendCopilotBockyRequest(prompt); // TODO handle null values
+                    drawResponseText("Hello I'm Copilot Bocky!", 'copilot');
+                }
+            } else {
+                document.getElementById('send-prompt-button').style.cursor ='not-allowed';
+                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#E9ECEF';
             }
         }
 
@@ -411,7 +418,7 @@
 
         // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
         prompt_textarea.addEventListener("input", async () => {
-            let canSendPrompt = prompt_textarea.value.trim().length > 0;
+            const canSendPrompt = prompt_textarea.value.trim().length > 0;
             document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
             document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
@@ -478,7 +485,7 @@
                 // Call Bocky
                 // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
                 if (!accessToken) {
-                    console.error("No token returned!");
+                        console.error("No token returned!");
                 } else {
                     console.log("SILENT TOKEN ACQUIRED:", accessToken);
                 }
