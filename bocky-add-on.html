@@ -320,7 +320,6 @@
         async function sendPrompt() {
             document.getElementById('send-prompt-button').style.cursor ='wait';
             const signedIn = await isSignedIn();
-            console.log("HEYYYOH");
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
@@ -341,20 +340,25 @@
                 const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
                 
                 if(useTraditionalBockyEngine){
-                    const response = await fetchTokenAndSendTraditionalBockyRequest(prompt);
-                    if (response == null){
-                        console.error("Failed at getting a response from Traditional Bocky.");
+                    const token = await fetchToken();
+                    if (token == null){
+                        console.error("Failed at getting user's authentication token.");
                         return;
                     }
-                    drawResponseText("Hello I'm Traditional Bocky!", 'traditional');
+                    const response = await getBockyEngineAnswer(token, prompt);
+                    if (response == null){
+                        console.error("Failed at getting bocky response.");
+                        return;
+                    }
+                    drawResponseText(response.message, 'traditional');
                 }
                 else {
-                    const response = await sendCopilotBockyRequest(prompt);
+                    const response = await getCopilotEngineAnswer(prompt);
                     if (response == null){
                         console.error("Failed at getting a response from Copilot Bocky.");
                         return;
                     }
-                    drawResponseText(response, 'copilot');
+                    drawResponseText(response.message, 'copilot');
                 }
             } else {
                 document.getElementById('send-prompt-button').style.cursor ='not-allowed';
@@ -444,7 +448,6 @@
         let account = null;
 
         async function isSignedIn() {
-            console.log("HEYYY");
             const accounts = msalInstance.getAllAccounts();
             if (accounts.length > 0) {
                 account = accounts[0];
@@ -475,55 +478,46 @@
             }
         }
 
-        function fetchTokenAndSendTraditionalBockyRequest(prompt){
+        async function fetchToken(){
             const account = msalInstance.getAllAccounts()[0];
             const accessTokenRequest = {
                 scopes: ["user.read"],
                 account: account,
             }
-            msalInstance
-            .acquireTokenSilent(accessTokenRequest)
-            .then(function (accessTokenResponse) {
-                // Acquire token silent success
-                let accessToken = accessTokenResponse.accessToken;
-                // Call Bocky
-                // TODO REQUEST WITH THE TOKEN (accessToken) and return response or part of it
-                if (!accessToken) {
-                    console.warn("Failed at getting silent authentication token, trying to get with popup");
-                } else {
-                    console.log("Sucessfully got user's token silently");
-                }
-                return accessToken;
-            })
-            .catch(function (error) {
+
+            try{
+                let accessTokenResponse = await msalInstance.acquireTokenSilent(accessTokenRequest);
+                console.log("Sucessfully got user's token silently");
+                return accessTokenResponse.accessToken;
+            } catch (error){
                 //Acquire token silent failure, and send an interactive request
-                if (error instanceof msal.InteractionRequiredAuthError) {
-                msalInstance
-                    .acquireTokenPopup(accessTokenRequest)
-                    .then(function (accessTokenResponse) {
-                    // Acquire token interactive success
-                    let accessToken = accessTokenResponse.accessToken;
-                    // Call Bocky
-                    // TODO REQUEST WITH THE TOKEN (accessToken)
-                    if (!accessToken) {
-                        console.error("Failed at getting user's authentication token.");
+                console.warn("Failed at getting silent authentication token, trying to get with popup");
+                if (error instanceof msal.InteractionRequiredAuthError){
+                    try{
+                        accessTokenResponse = await msalInstance.acquireTokenPopup(accessTokenRequest);
+                        console.log("Sucessfully got user's token interactively(popup)");
+                        return accessTokenResponse.accessToken;
+                    }catch(err){
+                        console.error("Failed at getting interactive(popup) authentication token. Error; ", err);
+                        return null;
                     }
-                    return accessToken;
-                    })
-                    .catch(function (error) {
-                    // Acquire token interactive failure
-                    console.log(error);
-                    return null;
-                    });
                 }
                 console.log(error);
                 return null;
+            }
+        }
+
+        async function getBockyEngineAnswer(token, prompt){
+            return Promise.resolve({
+                message: "Hello I'm Traditional Bocky",
             });
         }
-    
-        function sendCopilotBockyRequest(prompt){
+
+        function getCopilotEngineAnswer(prompt){
             // TODO Copilot Request and return response
-            return "Hello I'm Copilot Bocky!";
+            return Promise.resolve({
+                message: "Hello I'm Copilot Bocky",
+            });
         }
     </script>
   </body>
