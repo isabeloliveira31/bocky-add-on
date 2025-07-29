@@ -9,6 +9,7 @@
     <style>
         html, body {
             pointer-events: none;
+            overflow: hidden;
         }
 
         body {
@@ -493,7 +494,7 @@
                 if (!accessToken) {
                     console.warn("Failed at getting silent authentication token, trying to get with popup");
                 } else {
-                    console.log("Sucessfully got user's token silently");
+                    console.log("Sucessfully got user's token silently. The token is ", accessToken);
                 }
                 return accessToken;
             })
