@@ -299,11 +299,14 @@
         function abrirConversa() {
             document.getElementById('bocky-icon').classList.add('close');
             document.getElementById('bocky-conversa').classList.add('open');
+            resizeConversaBocky();
         }
 
         function esconderConversa() {
             document.getElementById('bocky-icon').classList.remove('close');
             document.getElementById('bocky-conversa').classList.remove('open');
+            const bockyIconRadius = document.getElementById('bocky-icon').offsetHeight;
+            window.parent.postMessage({ type: 'collapse-bocky', radius: bockyIconRadius }, '*');
         }
 
         function chooseBockyEngine(engine){
@@ -392,6 +395,7 @@
             document.getElementById('historico-conversa').appendChild(mensagem);
             // update scroll position to the latest message
             document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
+            resizeConversaBocky();
         }
         
         function drawResponseText(response, engine){
@@ -415,6 +419,13 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
+            resizeConversaBocky();
+        }   
+
+        function resizeConversaBocky(){
+            const height = document.getElementById('bocky-conversa').offsetHeight;
+            const width = document.getElementById('bocky-conversa').offsetWidth;
+            window.parent.postMessage({ type: 'expand-bocky', height: height, width:width }, '*');
         }
 
         // Event listners
@@ -426,6 +437,8 @@
             document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
             document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
+            resizeConversaBocky();
+            
         });
 
         // MSAL Authentication
