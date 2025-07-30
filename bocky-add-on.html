@@ -10,6 +10,7 @@
         body {
             background: transparent;
             margin: 0;
+            background-color: aqua;
         }
 
         #bocky-icon {
@@ -21,7 +22,7 @@
             position: fixed;
             bottom: 0px;
             right: 0px;
-            width: 50px; /* todo responsive */
+            width: 50px;
             height: 50px;
             overflow: hidden;
             opacity: 1;
@@ -248,6 +249,15 @@
             max-width: 110%;
             max-height: 110%;
             overflow: hidden;
+        }
+
+        @media only screen and (max-width: 600px){
+            /* regular sized and small phones */
+            #bocky-icon img{
+                height: 250px;
+                width: 250px;
+            }
+
         }
     </style>
   </head>
