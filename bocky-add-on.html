@@ -48,10 +48,6 @@
             size: auto;
         }
 
-        #bocky-icon:hover {
-            transform: translate(-6px, -6px);
-        }
-
         #bocky-conversa {
             background-color: white;
             border: #DEE2E6 solid 1px;
@@ -320,7 +316,7 @@
         }
 
         async function sendPrompt() {
-            document.getElementById('send-prompt-button').style.cursor ='wait';
+            document.getElementById('bocky-conversa').style.cursor ='wait';
             const signedIn = await isSignedIn();
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
