@@ -325,6 +325,7 @@
             }
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
             document.getElementById('bocky-widget-instructions').classList.remove('warning');
+            document.getElementById('conversa-bocky').style.cursor ='default';
 
             const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
             if (promptIsntEmpty){
