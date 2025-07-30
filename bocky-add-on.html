@@ -318,15 +318,14 @@
         async function sendPrompt() {
             document.getElementById('bocky-conversa').style.cursor ='wait';
             const signedIn = await isSignedIn();
+            document.getElementById('bocky-conversa').style.cursor ='default';
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
-                document.getElementById('bocky-conversa').style.cursor ='default';
                 return;
             }
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
             document.getElementById('bocky-widget-instructions').classList.remove('warning');
-            document.getElementById('bocky-conversa').style.cursor ='default';
 
             const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
             if (promptIsntEmpty){
