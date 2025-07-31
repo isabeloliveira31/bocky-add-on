@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bocky Popup Widget</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Bocky Popup Widget">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.38.2/js/msal-browser.min.js"></script>
+    <style>
+        body {
+            background: transparent;
+            margin: 0;
+
+        }
+
+        #bocky-icon {
+            border-radius: 100%;
+            border: #A92629 solid 3px;
+            background-color: #FAEAEA;
+            display: block;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: clamp(4rem, calc(5vh + 1.5rem), 16rem);
+            height: clamp(4rem, calc(5vh + 1.5rem), 16rem);
+            overflow: hidden;
+            opacity: 1;
+            pointer-events: auto;
+            transition: transform 0.3s ease, opacity 0.6s ease;
+            transform-origin: bottom right;
+        }
+
+        #bocky-icon.close {
+            transform: scale(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #bocky-icon img {
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            size: auto;
+        }
+
+        #bocky-conversa {
+            background-color: white;
+            border: #DEE2E6 solid 1px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 300px;
+            height: auto;
+            max-height: 450px;
+            box-shadow: 0 2px 4px #00000024;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.3);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: bottom right;
+
+        }
+
+        #bocky-conversa.open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #bocky-widget-prompt-section {
+            bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .botao-clicado{
+            transform: translate(1px, 1px);
+        }
+
+        #bocky-widget-prompt-section button{
+            background: none;
+            border: none;
+        }
+
+        #bocky-widget-prompt-section textarea{
+            padding: 5px;
+	        margin: 8px 4px 8px 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,.2);
+            box-shadow: 0 1px 2px #00000024;
+            bottom: 10px;
+            outline: none;
+            overflow-y: auto;
+            resize: none;
+            scrollbar-width: thin;
+        }
+
+        #bocky-conversa-header {
+            top: 0;
+            height: 70px;
+            background: transparent;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        #bocky-conversa-header a{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            color: black;
+            margin-top: 0px;
+            font-size: 20px;
+        }
+        #bocky-conversa-header a p{
+            padding-top: 5px;
+        }
+
+        #bocky-link-icon img {
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            width: 50px;
+            margin-left: 10px;
+        }
+
+        #bocky-conversa-close {
+            border:none; 
+            background: none;
+            padding-right: 15px;
+            margin-top: 10px;
+            align-self: self-start;
+            cursor: pointer;
+        }
+
+        #historico-conversa {
+            max-height: 270px;
+            height: auto;
+            width: 96%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-wrap: break-word;
+        }
+
+        .mensagem-conversa{
+            border-radius: 4px;
+            padding: 6px;
+            margin: 10px;
+            max-width: 60%;
+            background-color: #E9ECEF;
+            width: 96%;
+            height: auto;
+            color: black;
+            overflow-wrap: break-word;
+        }
+        .mensagem-conversa p {
+            color: black;
+            overflow-wrap: break-word;
+            margin: 0px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-top: 5px;
+        }
+
+        .mensagem-conversa-bocky{
+            align-self: flex-start;
+        }
+
+        .mensagem-conversa-bocky .icon {
+            float: right;
+            width: 25px;
+        }
+        
+        .mensagem-conversa-user{
+            align-self: flex-end;
+        }
+
+        #bocky-widget-instructions {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 11px;
+            margin-left: 30px;
+            margin-right: 65px;
+        }
+
+        #bocky-widget-instructions.warning{
+            font-size: 13px;
+            color: #A92629;            
+        }
+
+        .icon {
+            padding-top: 2px;
+            margin: 0px;
+            background-color: transparent;
+            max-width: 110%;
+            max-height: 110%;
+            overflow: hidden;
+        }
+    </style>
+  </head>
+  <body>
+    <button id="bocky-icon" class="open" type="button" onclick="abrirConversa()" aria-label="Open Bocky widget">
+        <img src="bocky-icon.png">
+    </button>
+    <div id="bocky-conversa">
+        <div id="bocky-conversa-header">
+            <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
+            <a id="bocky-link-icon" class=".font-size-base" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
+                <img src="bocky-icon.png">
+                <p class=".heading-6">Bocky</p>
+            </a>
+            <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
+                <i class="fa-solid fa-minus" style="font-size: 15px; color: black;"></i>
+            </button>
+        </div>
+        <div id="historico-conversa">
+            <!-- secção onde se pode ver as mensagens anteriores-->
+            <p id="bocky-widget-instructions" class=".font-size-base">Pergunta-me o que quiseres!</p>
+        </div>
+        <div id="bocky-widget-prompt-section">
+            <!-- widget's bottom section - contains the user's input textbox and the send button -->
+            <textarea id="bocky-widget-prompt" class=".font-size-small" rows="3" cols="27" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
+            <button type="button" id ="send-prompt-button" onclick="sendPrompt()" style="cursor: not-allowed;" disabled=true>
+                <i class=" fa-solid fa-paper-plane" id="bocky-widget-prompt-send-icon" style="color: #E9ECEF; font-size: 20px;" aria-label="Submit Bocky Prompt"></i>
+            </button>
+        </div>
+    </div>  
+    <script>
+        function abrirConversa() {
+            document.getElementById('bocky-icon').classList.add('close');
+            document.getElementById('bocky-conversa').classList.add('open');
+            resizeConversaBocky();
+        }
+
+        function esconderConversa() {
+            document.getElementById('bocky-icon').classList.remove('close');
+            document.getElementById('bocky-conversa').classList.remove('open');
+            const bockyIconRadius = document.getElementById('bocky-icon').offsetHeight;
+            window.parent.postMessage({ type: 'collapse-bocky', radius: bockyIconRadius }, '*');
+        }
+
+        async function sendPrompt() {
+            document.getElementById('bocky-conversa').style.cursor ='wait';
+            const signedIn = await isSignedIn();
+            document.getElementById('bocky-conversa').style.cursor ='default';
+            if (!signedIn) {
+                document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
+                document.getElementById('bocky-widget-instructions').classList.add('warning');
+                return;
+            }
+            document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
+            document.getElementById('bocky-widget-instructions').classList.remove('warning');
+
+            const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
+            if (promptIsntEmpty){
+                document.getElementById('send-prompt-button').style.cursor ='pointer';
+                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
+
+                sendButtonAnimation();
+                const prompt = getPromptAndClearInputTextbox();
+                drawUserText(prompt);
+                const token = await fetchToken();
+                if (token == null){
+                    console.error("Failed at getting user's authentication token.");
+                    return;
+                }
+                const response = await getBockyEngineAnswer(token, prompt);
+                if (response == null){
+                    console.error("Failed at getting bocky response.");
+                    return;
+                }
+                drawResponseText(response.message, 'traditional');
+                
+            } else {
+                document.getElementById('send-prompt-button').style.cursor ='not-allowed';
+                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#E9ECEF';
+            }
+        }
+
+        function sendButtonAnimation(){
+            // cria a animação de "clicar" no botão
+            const botaoEnviar = document.getElementById('send-prompt-button');
+            botaoEnviar.classList.add('botao-clicado');
+            setTimeout(() => {
+                botaoEnviar.classList.remove('botao-clicado');
+            }, 220);
+        }
+
+        function getPromptAndClearInputTextbox(){
+            // clears the input textbox and returns the prompt
+            const prompt = document.getElementById('bocky-widget-prompt').value;                // get user's prompt
+            document.getElementById('bocky-widget-prompt').value = '';                          // clear input textbox
+            document.getElementById('bocky-widget-prompt').dispatchEvent(new Event('input'));   // trigger textbox's input event listner (to disable send button since the text box has just been emptied)
+            return prompt;
+        }
+
+        function drawUserText(prompt){
+            // draws user's message box
+            const mensagem = document.createElement('div');
+            mensagem.textContent = prompt;
+            mensagem.classList.add('mensagem-conversa');
+            mensagem.classList.add('mensagem-conversa-user');
+            mensagem.classList.add('.font-size-small');
+            document.getElementById('historico-conversa').appendChild(mensagem);
+            // update scroll position to the latest message
+            document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
+            resizeConversaBocky();
+        }
+        
+        function drawResponseText(response, engine){
+            // draws response text
+            const iconBockyEngine = document.createElement('img');
+            iconBockyEngine.classList.add('icon');
+            if (engine == 'traditional'){
+                iconBockyEngine.src = 'bocky-icon.png';
+                iconBockyEngine.alt = 'Traditional Bocky icon';
+            } else if (engine == 'copilot') {
+                iconBockyEngine.src = 'https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Microsoft_Copilot_Icon.svg/1200px-Microsoft_Copilot_Icon.svg.png';
+                iconBockyEngine.alt = 'Copilot Bocky icon';
+            }
+            const textBocky = document.createElement('p');
+            textBocky.textContent = response;
+            textBocky.classList.add('.font-size-small');
+            const mensageBoxBocky = document.createElement('div');
+            mensageBoxBocky.classList.add('mensagem-conversa');
+            mensageBoxBocky.classList.add('mensagem-conversa-bocky');
+            mensageBoxBocky.appendChild(iconBockyEngine);
+            mensageBoxBocky.appendChild(textBocky);
+            document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
+            document.getElementById('historico-conversa').scrollTop += 50;
+            resizeConversaBocky();
+        }   
+
+        function resizeConversaBocky(){
+            const height = document.getElementById('bocky-conversa').offsetHeight;
+            const width = document.getElementById('bocky-conversa').offsetWidth;
+            window.parent.postMessage({ type: 'expand-bocky', height: height, width:width }, '*');
+        }
+
+        // Event listners
+        const prompt_textarea = document.getElementById('bocky-widget-prompt');
+
+        // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
+        prompt_textarea.addEventListener("input", async () => {
+            const canSendPrompt = prompt_textarea.value.trim().length > 0;
+            document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
+            document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
+            document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
+            resizeConversaBocky();
+            
+        });
+
+        // MSAL Authentication
+
+        // configure MSAL credentials
+        const msalConfig = {
+            auth: {
+                clientId: "4fe15b48-5867-4eb4-a575-355d7316cefd",
+                authority: "https://login.microsoftonline.com/01c74dcc-1e91-4c9c-b3a0-88030994bf82",
+                redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
+            },
+            cache: {
+                cacheLocation: "sessionStorage",
+                storeAuthStateInCookie: false
+            }
+        };
+
+        const msalInstance = new msal.PublicClientApplication(msalConfig);
+        let account = null;
+
+        async function isSignedIn() {
+            const accounts = msalInstance.getAllAccounts();
+            if (accounts.length > 0) {
+                account = accounts[0];
+                console.log("User is already logged in, no need to authenticate.")
+                return true;
+            }
+            try {
+                const silentLoginResponse = await msalInstance.ssoSilent({
+                    scopes: ["User.Read"],
+                });
+                account = silentLoginResponse.account;
+                console.log("Sucessful silent auth: ", account);
+                return true;
+            } catch (error) {
+                console.warn("Silent auth failed, trying popup auth");
+                try {
+                    const loginResponse = await msalInstance.loginPopup({
+                        scopes: ["User.Read"]
+                    });
+                    account = loginResponse.account;
+                    console.log("Sucessful popup auth: ", account);
+                    return true;
+                } catch (err) {
+                    console.error("Popup auth failed: ", err);
+                    return false;
+                }
+                return false;
+            }
+        }
+
+        async function fetchToken(){
+            const account = msalInstance.getAllAccounts()[0];
+            const accessTokenRequest = {
+                scopes: ["user.read"],
+                account: account,
+            }
+
+            try{
+                let accessTokenResponse = await msalInstance.acquireTokenSilent(accessTokenRequest);
+                console.log("Sucessfully got user's token silently");
+                return accessTokenResponse.accessToken;
+            } catch (error){
+                //Acquire token silent failure, and send an interactive request
+                console.warn("Failed at getting silent authentication token, trying to get with popup");
+                if (error instanceof msal.InteractionRequiredAuthError){
+                    try{
+                        accessTokenResponse = await msalInstance.acquireTokenPopup(accessTokenRequest);
+                        console.log("Sucessfully got user's token interactively(popup)");
+                        return accessTokenResponse.accessToken;
+                    }catch(err){
+                        console.error("Failed at getting interactive(popup) authentication token. Error; ", err);
+                        return null;
+                    }
+                }
+                console.log(error);
+                return null;
+            }
+        }
+
+        async function getBockyEngineAnswer(token, prompt){
+            return Promise.resolve({
+                message: "Hello I'm Traditional Bocky",
+            });
+        }
+    </script>
+  </body>
+</html>
