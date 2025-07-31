@@ -251,8 +251,8 @@
         function esconderConversa() {
             document.getElementById('bocky-icon').classList.remove('close');
             document.getElementById('bocky-conversa').classList.remove('open');
-            const bockyIconRadius = document.getElementById('bocky-icon').offsetHeight;
-            window.parent.postMessage({ type: 'collapse-bocky', radius: bockyIconRadius }, '*');
+            const bockyIconDiameter = document.getElementById('bocky-icon').offsetHeight;
+            window.parent.postMessage({ type: 'collapse-bocky', diameter: bockyIconDiameter }, '*');
         }
 
         async function sendPrompt() {

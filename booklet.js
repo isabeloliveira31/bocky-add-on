@@ -21,8 +21,8 @@ javascript:(function(){
             iframe.style.width = event.data.width + 'px'; 
             iframe.style.height = event.data.height + 'px'; 
         } else if (event.data.type === 'collapse-bocky') { 
-            iframe.style.width = event.data.radius + 'px'; 
-            iframe.style.height = event.data.radius + 'px'; 
+            iframe.style.width = event.data.diameter + 'px'; 
+            iframe.style.height = event.data.diameter + 'px'; 
         }
     }); 
 })();

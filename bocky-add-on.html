@@ -25,8 +25,8 @@
             position: fixed;
             bottom: 0px;
             right: 0px;
-            width: clamp(4rem, calc(5vh + 1.5rem), 16rem);
-            height: clamp(4rem, calc(5vh + 1.5rem), 16rem);
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             opacity: 1;
             pointer-events: auto;
@@ -295,14 +295,14 @@
         function abrirConversa() {
             document.getElementById('bocky-icon').classList.add('close');
             document.getElementById('bocky-conversa').classList.add('open');
-            resizeConversaBocky();
+            resizeIframeToConversaBocky();
         }
 
         function esconderConversa() {
             document.getElementById('bocky-icon').classList.remove('close');
             document.getElementById('bocky-conversa').classList.remove('open');
-            const bockyIconRadius = document.getElementById('bocky-icon').offsetHeight;
-            window.parent.postMessage({ type: 'collapse-bocky', radius: bockyIconRadius }, '*');
+            const bockyIconDiameter = document.getElementById('bocky-icon').offsetHeight;
+            window.parent.postMessage({ type: 'collapse-bocky', diameter: bockyIconDiameter }, '*');
         }
 
         function chooseBockyEngine(engine){
@@ -392,7 +392,7 @@
             document.getElementById('historico-conversa').appendChild(mensagem);
             // update scroll position to the latest message
             document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
-            resizeConversaBocky();
+            resizeIframeToConversaBocky();
         }
         
         function drawResponseText(response, engine){
@@ -416,12 +416,15 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
-            resizeConversaBocky();
+            resizeIframeToConversaBocky();
         }   
 
-        function resizeConversaBocky(){
+        function resizeIframeToConversaBocky(){
             const height = document.getElementById('bocky-conversa').offsetHeight;
             const width = document.getElementById('bocky-conversa').offsetWidth;
+            icon_diameter = document.getElementById('bocky-icon').offsetHeight;
+            document.getElementById('bocky-icon').style.height = icon_diameter + 'px';
+            document.getElementById('bocky-icon').style.width = icon_diameter + 'px';
             window.parent.postMessage({ type: 'expand-bocky', height: height, width:width }, '*');
         }
 
@@ -434,7 +437,7 @@
             document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
             document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
-            resizeConversaBocky();
+            resizeIframeToConversaBocky();
             
         });
 
