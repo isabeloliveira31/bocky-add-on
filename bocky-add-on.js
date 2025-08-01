@@ -1,7 +1,7 @@
         function abrirConversa() {
             document.getElementById('bocky-icon').classList.add('close');
             document.getElementById('bocky-conversa').classList.add('open');
-            resizeIframeToConversaBocky();
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
         }
 
         function esconderConversa() {
@@ -98,7 +98,7 @@
             document.getElementById('historico-conversa').appendChild(mensagem);
             // update scroll position to the latest message
             document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
-            resizeIframeToConversaBocky();
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
         }
         
         function drawResponseText(response, engine){
@@ -122,7 +122,7 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
-            resizeIframeToConversaBocky();
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
         }   
 
         function resizeIframeToConversaBocky(){
@@ -143,7 +143,7 @@
             document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
             document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
             document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
-            resizeIframeToConversaBocky();
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
             
         });
 

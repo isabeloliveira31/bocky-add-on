@@ -44,7 +44,7 @@
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
-                resizeIframeToConversaBocky();
+                requestAnimationFrame(() => resizeIframeToConversaBocky());
                 return;
             }
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
@@ -87,7 +87,7 @@
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
-            resizeIframeToConversaBocky();
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
         }
     </script>
   </body>
