@@ -1,0 +1,245 @@
+body {
+            background: transparent;
+            margin: 0;
+
+        }
+
+        #bocky-icon {
+            border-radius: 100%;
+            border: #A92629 solid 3px;
+            background-color: #FAEAEA;
+            display: block;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 1;
+            pointer-events: auto;
+            transition: transform 0.3s ease, opacity 0.6s ease;
+            transform-origin: bottom right;
+        }
+
+        #bocky-icon.close {
+            transform: scale(0);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #bocky-icon img {
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            size: auto;
+        }
+
+        #bocky-conversa {
+            background-color: white;
+            border: #DEE2E6 solid 1px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+            width: 300px;
+            height: auto;
+            max-height: 450px;
+            box-shadow: 0 2px 4px #00000024;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.3);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            transform-origin: bottom right;
+
+        }
+
+        #bocky-conversa.open {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #bocky-widget-prompt-section {
+            bottom: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .botao-clicado{
+            transform: translate(1px, 1px);
+        }
+
+        #bocky-widget-prompt-section button{
+            background: none;
+            border: none;
+        }
+
+        #bocky-widget-prompt-section textarea{
+            padding: 5px;
+	        margin: 8px 4px 8px 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,0,0,.2);
+            box-shadow: 0 1px 2px #00000024;
+            bottom: 10px;
+            outline: none;
+            overflow-y: auto;
+            resize: none;
+            scrollbar-width: thin;
+        }
+
+        #bocky-conversa-header {
+            top: 0;
+            height: 70px;
+            background: transparent;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        #bocky-conversa-header a{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            color: black;
+            margin-top: 0px;
+            font-size: 20px;
+        }
+        #bocky-conversa-header a p{
+            padding-top: 5px;
+        }
+
+        #bocky-link-icon img {
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            width: 50px;
+            margin-left: 10px;
+        }
+
+        #bocky-conversa-close {
+            border:none; 
+            background: none;
+            padding-right: 15px;
+            margin-top: 10px;
+            align-self: self-start;
+            cursor: pointer;
+        }
+
+        #historico-conversa {
+            max-height: 270px;
+            height: auto;
+            width: 96%;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            overflow-wrap: break-word;
+        }
+
+        .mensagem-conversa{
+            border-radius: 4px;
+            padding: 6px;
+            margin: 10px;
+            max-width: 60%;
+            background-color: #E9ECEF;
+            width: 96%;
+            height: auto;
+            color: black;
+            overflow-wrap: break-word;
+        }
+        .mensagem-conversa p {
+            color: black;
+            overflow-wrap: break-word;
+            margin: 0px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-top: 5px;
+        }
+
+        .mensagem-conversa-bocky{
+            align-self: flex-start;
+        }
+
+        .mensagem-conversa-bocky .icon {
+            float: right;
+            width: 25px;
+        }
+        
+        .mensagem-conversa-user{
+            align-self: flex-end;
+        }
+
+        #bocky-widget-instructions {
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 11px;
+            margin-left: 30px;
+            margin-right: 65px;
+        }
+
+        #bocky-widget-instructions.warning{
+            font-size: 13px;
+            color: #A92629;            
+        }
+
+        #choose-bocky-engine{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 5px;
+            background: transparent;
+        }
+
+        #choose-bocky-engine .selected{
+            background-color: #A79869;
+        }
+
+        .bocky-engine {
+            border-radius: 13%;
+            border: none;
+            background-color: transparent;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            width: 45px;
+            height: 45px;
+            overflow: hidden;
+            gap: 2px;
+            transition: transform 0.3s ease, opacity 0.6s ease;
+            transform-origin: bottom right;
+            border: #A79869 solid 1px;
+        }
+
+        .bocky-engine p {
+            padding-bottom: 2px;
+            padding-left: 3px;
+            padding-right: 3px;
+            margin: 0px;
+            font-size: 9px;
+            color: black;
+            background-color: transparent;
+        }
+
+        .icon {
+            padding-top: 2px;
+            margin: 0px;
+            background-color: transparent;
+            max-width: 110%;
+            max-height: 110%;
+            overflow: hidden;
+        }
