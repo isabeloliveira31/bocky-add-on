@@ -216,13 +216,13 @@
   </head>
   <body>
     <button id="bocky-icon" class="open" type="button" onclick="abrirConversa()" aria-label="Open Bocky widget">
-        <img src="bocky-icon.png">
+        <img src="icons/bocky-icon.png">
     </button>
     <div id="bocky-conversa">
         <div id="bocky-conversa-header">
             <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
             <a id="bocky-link-icon" class=".font-size-base" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
-                <img src="bocky-icon.png">
+                <img src="icons/bocky-icon.png">
                 <p class=".heading-6">Bocky</p>
             </a>
             <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
@@ -325,22 +325,12 @@
         
         function drawResponseText(response, engine){
             // draws response text
-            const iconBockyEngine = document.createElement('img');
-            iconBockyEngine.classList.add('icon');
-            if (engine == 'traditional'){
-                iconBockyEngine.src = 'bocky-icon.png';
-                iconBockyEngine.alt = 'Traditional Bocky icon';
-            } else if (engine == 'copilot') {
-                iconBockyEngine.src = 'https://upload.wikimedia.org/wikipedia/en/thumb/a/aa/Microsoft_Copilot_Icon.svg/1200px-Microsoft_Copilot_Icon.svg.png';
-                iconBockyEngine.alt = 'Copilot Bocky icon';
-            }
             const textBocky = document.createElement('p');
             textBocky.textContent = response;
             textBocky.classList.add('.font-size-small');
             const mensageBoxBocky = document.createElement('div');
             mensageBoxBocky.classList.add('mensagem-conversa');
             mensageBoxBocky.classList.add('mensagem-conversa-bocky');
-            mensageBoxBocky.appendChild(iconBockyEngine);
             mensageBoxBocky.appendChild(textBocky);
             document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
             document.getElementById('historico-conversa').scrollTop += 50;
