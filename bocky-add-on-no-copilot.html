@@ -44,6 +44,7 @@
             if (!signedIn) {
                 document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
                 document.getElementById('bocky-widget-instructions').classList.add('warning');
+                resizeIframeToConversaBocky();
                 return;
             }
             document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
