@@ -88,6 +88,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
     position: fixed;
     bottom: 0px;
     right: 0px;
@@ -113,13 +114,14 @@ body {
 
 #bocky-conversa-header {
     top: 0;
-    height: 70px;
     background: transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    padding: 0px;
+    margin: 0px;
 }
 #bocky-conversa-header a{
     display: flex;
@@ -129,27 +131,28 @@ body {
     gap: 7px;
     text-decoration: none;
     color: black;
-    margin-top: 0px;
-    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
 }
 #bocky-conversa-header a p{
-    padding-top: 5px;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0px;
+    padding: 0px;
 }
 
 #bocky-link-icon img {
     object-fit: contain;
     max-width: 100%;
     max-height: 100%;
-    width: 50px;
-    margin-left: 10px;
+    width: 43px;
+    margin: 0px;
+    padding: 0px;   
 }
 
 #bocky-conversa-close {
     border:none; 
     background: none;
-    padding-right: 15px;
-    margin-top: 10px;
-    align-self: self-start;
     cursor: pointer;
 }
 
