@@ -24,13 +24,22 @@ javascript:(function(){
     document.body.appendChild(iframe); 
     window.addEventListener('message', (event) => { 
         if (event.data.type === 'expand-conversation') { 
-            const isMobile = window.innerWidth <= 768;
-            if(isMobile){
+            if(window.innerWidth < 450){
                 iframe.style.width = '90vw';
-                document.body.style.backgroundColor = 'green';
+                console.log("size A (< 450)");
+            } else if (window.innerWidth < 700){
+                iframe.style.width = '75vw';
+                console.log("size B (< 700)");
+            }
+            else if (window.innerWidth < 900){
+                iframe.style.width = '40vw';
+                console.log('size C (<900)');
+            } else if (window.innerWidth < 1300){
+                iframe.style.width = '30 vw';
+                console.log ('size D (<1300)');
             } else {
-                iframe.style.width = '20vw';// '10vw+12rem';
-                document.body.style.backgroundColor = 'red';
+                iframe.style.width = '20vw';
+                console.log('size E (> 1300)');
             }
             //iframe.style.width = 'clamp(20vw, 70rem,90vw)'; // 10vw+12rem  // max(20vw,200rem)
             //iframe.style.width = event.data.width + 'px'; 
