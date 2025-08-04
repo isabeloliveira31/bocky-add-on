@@ -71,7 +71,7 @@ function addSendButton(){
     button.type ='button';
     button.id ='send-prompt-button';
     button.style.cursor = 'pointer';
-    button.onclick = sendPrompt();
+    button.onclick = teste();
 
     const icon = document.createElement('img');
     icon.src = 'icons/send-icon.png';
@@ -80,6 +80,9 @@ function addSendButton(){
 
     button.appendChild(icon);
     parent.appendChild(button);
+}
+function teste(){
+    console.log("TESTE");
 }
 
 function removeSendButton(){
