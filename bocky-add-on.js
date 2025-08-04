@@ -1,14 +1,18 @@
 function abrirConversa() {
     document.getElementById('bocky-icon').classList.add('close');
-    document.getElementById('bocky-conversa').classList.add('open');
-    requestAnimationFrame(() => resizeIframeToConversaBocky());
+    setTimeout(() => {
+        requestAnimationFrame(() => resizeIframeToConversaBocky());
+        document.getElementById('bocky-conversa').classList.add('open');
+        setTimeout(() => {
+            requestAnimationFrame(() => resizeIframeToConversaBocky());
+        }, 20);
+    }, 150);
 }
 
 function esconderConversa() {
-    document.getElementById('bocky-icon').classList.remove('close');
     document.getElementById('bocky-conversa').classList.remove('open');
-    const bockyIconDiameter = document.getElementById('bocky-icon').offsetHeight;
-    window.parent.postMessage({ type: 'collapse-bocky', diameter: bockyIconDiameter }, '*');
+    window.parent.postMessage({ type: 'collapse-bocky'}, '*');
+    document.getElementById('bocky-icon').classList.remove('close');
 }
 
 function chooseBockyEngine(engine){
@@ -127,11 +131,7 @@ function drawResponseText(response, engine){
 
 function resizeIframeToConversaBocky(){
     const height = document.getElementById('bocky-conversa').offsetHeight;
-    const width = document.getElementById('bocky-conversa').offsetWidth;
-    icon_diameter = document.getElementById('bocky-icon').offsetHeight;
-    document.getElementById('bocky-icon').style.height = icon_diameter + 'px';
-    document.getElementById('bocky-icon').style.width = icon_diameter + 'px';
-    window.parent.postMessage({ type: 'expand-bocky', height: height, width:width }, '*');
+    window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
 }
 
 // Event listners
