@@ -33,12 +33,12 @@ javascript:(function(){
             } else if (window.innerWidth < 900){
                 iframe.style.width = '40vw';
                 console.log('size C (<900)');
-            } else if (window.innerWidth < 1450){
+            } else if (window.innerWidth < 1550){
                 iframe.style.width = '30vw';
-                console.log ('size D (<1450)');
+                console.log ('size D (<1550)');
             } else {
-                iframe.style.width = '20vw';
-                console.log('size E (> 1450)');
+                iframe.style.width = '25vw';
+                console.log('size E (> 1550)');
             }
             //iframe.style.width = 'clamp(20vw, 70rem,90vw)'; // 10vw+12rem  // max(20vw,200rem)
             //iframe.style.width = event.data.width + 'px'; 

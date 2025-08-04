@@ -15,7 +15,7 @@
     <div id="bocky-conversa">
         <div id="bocky-conversa-header">
             <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
-            <a id="bocky-link-icon" class=".font-size-base" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
+            <a id="bocky-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
                 <img src="icons/bocky-icon.png">
                 <p class=".heading-6">Bocky</p>
             </a>
@@ -38,8 +38,9 @@
         </div>
         <div id="bocky-widget-prompt-section">
             <!-- widget's bottom section - contains the user's input textbox and the send button -->
-            <textarea id="bocky-widget-prompt" class=".font-size-small" rows="3" cols="27" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
+            <textarea id="bocky-widget-prompt" rows="3" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
         </div>
+        <p id="aviso-podem-ocorrer-erros">Respostas geradas por Inteligência Artificial. Podem ocorrer erros.</p>
     </div>
     <script type="text/javascript" src="bocky-add-on.js"></script>
 
@@ -102,7 +103,6 @@
             }
             const textBocky = document.createElement('p');
             textBocky.textContent = response;
-            textBocky.classList.add('.font-size-small');
             const mensageBoxBocky = document.createElement('div');
             mensageBoxBocky.classList.add('mensagem-conversa');
             mensageBoxBocky.classList.add('mensagem-conversa-bocky');

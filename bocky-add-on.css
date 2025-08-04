@@ -94,6 +94,8 @@ body {
     width: 100%;
     height: auto;
     max-height: 450px;
+    box-sizing: border-box;
+    padding: calc(2vh + 1rem);
     box-shadow: 0 2px 4px #00000024;
     opacity: 0;
     pointer-events: none;
@@ -210,13 +212,12 @@ body {
     height: auto;
     overflow-wrap: break-word;
 }
-.mensagem-conversa p {
+.mensagem-conversa p, .mensagem-conversa {
     overflow-wrap: break-word;
-    margin: 0px;
-    padding-right: 5px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-top: 5px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
 }
 
 .mensagem-conversa-bocky{
@@ -235,9 +236,6 @@ body {
 .mensagem-conversa-user{
     background-color: #A92629;
     align-self: flex-end;
-}
-
-.mensage-conversa-user p{
     color: #FFFFFF;
 }
 
@@ -245,10 +243,12 @@ body {
     bottom: 4px;
     display: flex;
     align-items: center;
-    justify-content: center;
+        gap: 0.5rem;
+    width: 100%; /* TODO CHANGE TO 100% AND USE PADDINGS */
 }
 
 #bocky-widget-prompt-section button{
+    flex: 0 0 auto;
     background: none;
     border: none;
     height: 32px;
@@ -271,6 +271,8 @@ body {
 }
 
 #bocky-widget-prompt-section textarea{
+    flex: 1;
+    width: 100%;
     padding: 5px;
     margin: 8px 4px 8px 4px;
     border-radius: 8px;
@@ -284,4 +286,12 @@ body {
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#aviso-podem-ocorrer-erros{
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 21px;
+    color: #6D6F71;
+    margin: 0px;
 }
