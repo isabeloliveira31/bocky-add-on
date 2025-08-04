@@ -70,7 +70,7 @@ function addSendButton(){
     button.type ='button';
     button.id ='send-prompt-button';
     button.style.cursor = 'pointer';
-    button.onclick = sendPrompt();
+    button.onclick = sendPrompt;
 
     const icon = document.createElement('img');
     icon.src = 'icons/send-icon.png';
