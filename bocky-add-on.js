@@ -61,7 +61,6 @@ function resizeIframeToConversaBocky(){
 }
 
 function addSendButton(){
-    console.log("ADDSENDBUTTON");
     if(document.getElementById('send-prompt-button')){
         return;
     }
@@ -71,7 +70,7 @@ function addSendButton(){
     button.type ='button';
     button.id ='send-prompt-button';
     button.style.cursor = 'pointer';
-    button.onclick = teste();
+    button.onclick = sendPrompt();
 
     const icon = document.createElement('img');
     icon.src = 'icons/send-icon.png';
@@ -81,12 +80,8 @@ function addSendButton(){
     button.appendChild(icon);
     parent_element.appendChild(button);
 }
-function teste(){
-    console.log("TESTE");
-}
 
 function removeSendButton(){
-    console.log("REMOVESENDbUTTON");
     const button = document.getElementById('send-prompt-button');
     if (button){
         button.parentElement.removeChild(button);
