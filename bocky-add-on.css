@@ -235,14 +235,6 @@ body {
     align-self: flex-end;
 }
 
-#bocky-widget-instructions {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 11px;
-    margin-left: 30px;
-    margin-right: 65px;
-}
-
 #bocky-widget-prompt-section {
     bottom: 4px;
     display: flex;
@@ -253,6 +245,10 @@ body {
 #bocky-widget-prompt-section button{
     background: none;
     border: none;
+    height: 32px;
+    width: auto;
+    background-color: transparent;
+
 }
 
 .botao-clicado{
