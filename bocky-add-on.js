@@ -93,7 +93,6 @@ const prompt_textarea = document.getElementById('bocky-widget-prompt');
 
 // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
 prompt_textarea.addEventListener("input", async () => {
-    drawUserText("hey");
     const canSendPrompt = prompt_textarea.value.trim().length > 0;
     if(canSendPrompt){
         addSendButton();
