@@ -79,7 +79,7 @@ function addSendButton(){
     icon.setAttribute('aria-label', 'Submit Bocky Prompt');
 
     button.appendChild(icon);
-    parent.appendChild(button);
+    parent_element.appendChild(button);
 }
 function teste(){
     console.log("TESTE");
