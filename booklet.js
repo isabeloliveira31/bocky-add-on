@@ -28,18 +28,17 @@ javascript:(function(){
                 iframe.style.width = '90vw';
                 console.log("size A (< 450)");
             } else if (window.innerWidth < 700){
-                iframe.style.width = '75vw';
+                iframe.style.width = '55vw';
                 console.log("size B (< 700)");
-            }
-            else if (window.innerWidth < 900){
+            } else if (window.innerWidth < 900){
                 iframe.style.width = '40vw';
                 console.log('size C (<900)');
-            } else if (window.innerWidth < 1300){
-                iframe.style.width = '30 vw';
-                console.log ('size D (<1300)');
+            } else if (window.innerWidth < 1450){
+                iframe.style.width = '30vw';
+                console.log ('size D (<1450)');
             } else {
                 iframe.style.width = '20vw';
-                console.log('size E (> 1300)');
+                console.log('size E (> 1450)');
             }
             //iframe.style.width = 'clamp(20vw, 70rem,90vw)'; // 10vw+12rem  // max(20vw,200rem)
             //iframe.style.width = event.data.width + 'px'; 

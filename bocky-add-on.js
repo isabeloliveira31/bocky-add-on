@@ -5,7 +5,7 @@ function abrirConversa() {
         document.getElementById('bocky-conversa').classList.add('open');
         setTimeout(() => {
             requestAnimationFrame(() => resizeIframeToConversaBocky());
-        }, 20);
+        }, 100);
     }, 150);
 }
 
