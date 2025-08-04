@@ -30,19 +30,15 @@
                 </button>
             </div>
             <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
-                <i class="fa-solid fa-minus" style="font-size: 15px; color: black;"></i>
+                <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
             </button>
         </div>
         <div id="historico-conversa">
             <!-- secção onde se pode ver as mensagens anteriores-->
-            <p id="bocky-widget-instructions" class=".font-size-base">Pergunta-me o que quiseres!</p>
         </div>
         <div id="bocky-widget-prompt-section">
             <!-- widget's bottom section - contains the user's input textbox and the send button -->
             <textarea id="bocky-widget-prompt" class=".font-size-small" rows="3" cols="27" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
-            <button type="button" id ="send-prompt-button" onclick="sendPrompt()" style="cursor: not-allowed;" disabled=true>
-                <i class=" fa-solid fa-paper-plane" id="bocky-widget-prompt-send-icon" style="color: #E9ECEF; font-size: 20px;" aria-label="Submit Bocky Prompt"></i>
-            </button>
         </div>
     </div>
     <script type="text/javascript" src="bocky-add-on.js"></script>
@@ -53,20 +49,13 @@
             const signedIn = await isSignedIn();
             document.getElementById('bocky-conversa').style.cursor ='default';
             if (!signedIn) {
-                document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
-                document.getElementById('bocky-widget-instructions').classList.add('warning');
-                setTimeout(() => {
-                    requestAnimationFrame(() => resizeIframeToConversaBocky());
-                }, 0);
+                removeSendButton();
                 return;
             }
-            document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
-            document.getElementById('bocky-widget-instructions').classList.remove('warning');
 
             const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
             if (promptIsntEmpty){
-                document.getElementById('send-prompt-button').style.cursor ='pointer';
-                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
+                addSendButton();
 
                 sendButtonAnimation();
                 const prompt = getPromptAndClearInputTextbox();
@@ -96,8 +85,7 @@
                     drawResponseText(response.message, 'copilot');
                 }
             } else {
-                document.getElementById('send-prompt-button').style.cursor ='not-allowed';
-                document.getElementById('bocky-widget-prompt-send-icon').style.color = '#E9ECEF';
+                removeSendButton();
             }
         }
 

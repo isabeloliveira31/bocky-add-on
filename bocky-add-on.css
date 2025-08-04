@@ -1,6 +1,39 @@
+/* Define the Klavika font-face for different weights and styles */
+@font-face {
+  font-family: 'Klavika';
+  src: url('fonts/Klavika-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Klavika';
+  src: url('fonts/Klavika-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Klavika';
+  src: url('fonts/Klavika-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Klavika';
+  src: url('fonts/Klavika-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+}
+
+
 body {
     background: transparent;
     margin: 0;
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .icon {
@@ -14,13 +47,15 @@ body {
 
 #bocky-icon {
     border-radius: 100%;
-    border: #A92629 solid 3px;
-    background-color: #FAEAEA;
+    border: 1px solid #A92629;
+    background-color: #FFFFFF;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
+    padding-left: 16px; /* padding suggestion from figma design - TODO "add" responsiveness*/
+    padding-right: 16px;
     bottom: 0px;
     right: 0px;
     width: 100%;
@@ -47,9 +82,9 @@ body {
 }
 
 #bocky-conversa {
-    background-color: white;
-    border: #DEE2E6 solid 1px;
-    border-radius: 10px;
+    background-color: #FFFFFF;
+    border: 1px solid #DEE2E6;
+    border-radius: 4px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -208,11 +243,6 @@ body {
     margin-right: 65px;
 }
 
-#bocky-widget-instructions.warning{
-    font-size: 13px;
-    color: #A92629;            
-}
-
 #bocky-widget-prompt-section {
     bottom: 4px;
     display: flex;
@@ -240,4 +270,7 @@ body {
     overflow-y: auto;
     resize: none;
     scrollbar-width: thin;
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }

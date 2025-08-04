@@ -25,56 +25,6 @@ function chooseBockyEngine(engine){
     }
 }
 
-async function sendPrompt() {
-    document.getElementById('bocky-conversa').style.cursor ='wait';
-    const signedIn = await isSignedIn();
-    document.getElementById('bocky-conversa').style.cursor ='default';
-    if (!signedIn) {
-        document.getElementById('bocky-widget-instructions').textContent = 'Tens de autenticar-te para poderes usar o Bocky!';
-        document.getElementById('bocky-widget-instructions').classList.add('warning');
-        return;
-    }
-    document.getElementById('bocky-widget-instructions').textContent = 'Pergunta-me o que quiseres!';
-    document.getElementById('bocky-widget-instructions').classList.remove('warning');
-
-    const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
-    if (promptIsntEmpty){
-        document.getElementById('send-prompt-button').style.cursor ='pointer';
-        document.getElementById('bocky-widget-prompt-send-icon').style.color = '#A92629';
-
-        sendButtonAnimation();
-        const prompt = getPromptAndClearInputTextbox();
-        drawUserText(prompt);
-
-        const useTraditionalBockyEngine = document.getElementById('bocky-engine-traditional').classList.contains('selected');
-        
-        if(useTraditionalBockyEngine){
-            const token = await fetchToken();
-            if (token == null){
-                console.error("Failed at getting user's authentication token.");
-                return;
-            }
-            const response = await getBockyEngineAnswer(token, prompt);
-            if (response == null){
-                console.error("Failed at getting bocky response.");
-                return;
-            }
-            drawResponseText(response.message, 'traditional');
-        }
-        else {
-            const response = await getCopilotEngineAnswer(prompt);
-            if (response == null){
-                console.error("Failed at getting a response from Copilot Bocky.");
-                return;
-            }
-            drawResponseText(response.message, 'copilot');
-        }
-    } else {
-        document.getElementById('send-prompt-button').style.cursor ='not-allowed';
-        document.getElementById('bocky-widget-prompt-send-icon').style.color = '#E9ECEF';
-    }
-}
-
 function sendButtonAnimation(){
     // cria a animação de "clicar" no botão
     const botaoEnviar = document.getElementById('send-prompt-button');
@@ -105,33 +55,39 @@ function drawUserText(prompt){
     requestAnimationFrame(() => resizeIframeToConversaBocky());
 }
 
-function drawResponseText(response, engine){
-    // draws response text
-    const iconBockyEngine = document.createElement('img');
-    iconBockyEngine.classList.add('icon');
-    if (engine == 'traditional'){
-        iconBockyEngine.src = 'icons/bocky-icon.png';
-        iconBockyEngine.alt = 'Traditional Bocky icon';
-    } else if (engine == 'copilot') {
-        iconBockyEngine.src = 'icons/copilot-icon.png';
-        iconBockyEngine.alt = 'Copilot Bocky icon';
-    }
-    const textBocky = document.createElement('p');
-    textBocky.textContent = response;
-    textBocky.classList.add('.font-size-small');
-    const mensageBoxBocky = document.createElement('div');
-    mensageBoxBocky.classList.add('mensagem-conversa');
-    mensageBoxBocky.classList.add('mensagem-conversa-bocky');
-    mensageBoxBocky.appendChild(iconBockyEngine);
-    mensageBoxBocky.appendChild(textBocky);
-    document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
-    document.getElementById('historico-conversa').scrollTop += 50;
-    requestAnimationFrame(() => resizeIframeToConversaBocky());
-}   
-
 function resizeIframeToConversaBocky(){
     const height = document.getElementById('bocky-conversa').offsetHeight;
     window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
+}
+
+function addSendButton(){
+    console.log("ADDSENDBUTTON");
+    if(document.getElementById('send-prompt-button')){
+        return;
+    }
+    const parent_element = document.getElementById('bocky-widget-prompt-section');
+
+    const button = document.createElement('button');
+    button.type ='button';
+    button.id ='send-prompt-button';
+    button.style.cursor = 'pointer';
+    button.onclick = sendPrompt();
+
+    const icon = document.createElement('img');
+    icon.src = 'icons/send-icon.png';
+    icon.id = 'bocky-widget-prompt-send-icon';
+    icon.setAttribute('aria-label', 'Submit Bocky Prompt');
+
+    button.appendChild(icon);
+    parent.appendChild(button);
+}
+
+function removeSendButton(){
+    console.log("REMOVESENDbUTTON");
+    const button = document.getElementById('send-prompt-button');
+    if (button){
+        button.parentElement.removeChild(button);
+    }
 }
 
 // Event listners
@@ -140,9 +96,11 @@ const prompt_textarea = document.getElementById('bocky-widget-prompt');
 // Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
 prompt_textarea.addEventListener("input", async () => {
     const canSendPrompt = prompt_textarea.value.trim().length > 0;
-    document.getElementById('send-prompt-button').disabled = canSendPrompt ? false : true;
-    document.getElementById('send-prompt-button').style.cursor = canSendPrompt ? 'pointer' : 'not-allowed';
-    document.getElementById('bocky-widget-prompt-send-icon').style.color = canSendPrompt ? '#A92629': '#E9ECEF';
+    if(canSendPrompt){
+        addSendButton();
+    } else{
+        removeSendButton();
+    }
     requestAnimationFrame(() => resizeIframeToConversaBocky());
     
 });
