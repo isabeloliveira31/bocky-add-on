@@ -44,15 +44,35 @@ function getPromptAndClearInputTextbox(){
 
 function drawUserText(prompt){
     // draws user's message box
-    const mensagem = document.createElement('div');
-    mensagem.textContent = prompt;
-    mensagem.classList.add('mensagem-conversa');
-    mensagem.classList.add('mensagem-conversa-user');
+    const message = document.createElement('div');
+    const messageBalloon = document.createElement('div');
+    const messageText = document.createElement('p');
+    const timestamp = document.createElement('p');
+    message.classList.add('mensagem-conversa');
+    message.classList.add('mensagem-conversa-user');
+    messageBalloon.classList.add('message-balloon');
+    messageText.textContent = prompt;
+    const timestamp_string =  getTimestamp();
+    timestamp.textContent = timestamp_string;
+    timestamp.classList.add('message-timestamp');
 
-    document.getElementById('historico-conversa').appendChild(mensagem);
+    messageBalloon.appendChild(messageText);
+    message.appendChild(messageBalloon);
+    message.appendChild(timestamp);
+    document.getElementById('historico-conversa').appendChild(message);
+
     // update scroll position to the latest message
     document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
     requestAnimationFrame(() => resizeIframeToConversaBocky());
+}
+
+function getTimestamp(){
+    const raw_timestamp = new Date();
+    const hour = String(raw_timestamp.getHours()).padStart(2, '0');
+    const minute = String(raw_timestamp.getMinutes()).padStart(2, '0');
+    const second = String(raw_timestamp.getSeconds()).padStart(2, '0');
+    
+    return `${hour}:${minute}:${second}`;
 }
 
 function resizeIframeToConversaBocky(){

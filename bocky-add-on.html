@@ -101,15 +101,28 @@
                 iconBockyEngine.src = 'icons/copilot-icon.png';
                 iconBockyEngine.alt = 'Copilot Bocky icon';
             }
-            const textBocky = document.createElement('p');
-            textBocky.textContent = response;
-            const mensageBoxBocky = document.createElement('div');
-            mensageBoxBocky.classList.add('mensagem-conversa');
-            mensageBoxBocky.classList.add('mensagem-conversa-bocky');
-            mensageBoxBocky.appendChild(iconBockyEngine);
-            mensageBoxBocky.appendChild(textBocky);
-            document.getElementById('historico-conversa').appendChild(mensageBoxBocky);
-            document.getElementById('historico-conversa').scrollTop += 50;
+            const message = document.createElement('div');
+            const messageBalloon = document.createElement('div');
+            const messageText = document.createElement('p');
+            const timestamp = document.createElement('p');
+            message.classList.add('mensagem-conversa');
+            message.classList.add('mensagem-conversa-bocky');
+            messageBalloon.classList.add('message-balloon');
+            messageText.textContent = response;
+            const timestamp_string =  getTimestamp();
+            timestamp.textContent = timestamp_string;
+            timestamp.classList.add('message-timestamp');
+
+            messageBalloon.appendChild(messageText);
+            // hide the icon - it will be problably removed
+            //messageBalloon.appendChild(iconBockyEngine);
+            message.appendChild(messageBalloon);
+            message.appendChild(timestamp);
+            document.getElementById('historico-conversa').appendChild(message);
+
+            // update scroll position to the latest message
+            document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
+            // tto test later document.getElementById('historico-conversa').scrollTop += 100;
             requestAnimationFrame(() => resizeIframeToConversaBocky());
         }
     </script>

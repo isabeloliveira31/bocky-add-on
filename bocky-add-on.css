@@ -206,31 +206,33 @@ body {
     overflow-wrap: break-word;
 }
 
-.mensagem-conversa{
+.mensagem-conversa .message-balloon{
     border-radius: 4px;
     padding: 6px;
-    margin: 10px;
-    max-width: 60%;
-    width: 96%;
-    height: auto;
-    overflow-wrap: break-word;
-}
-.mensagem-conversa p, .mensagem-conversa {
+}   
+
+.message-balloon p {
     overflow-wrap: break-word;
     padding: 16px;
+    margin: 0px;
     font-size: 14px;
     line-height: 21px;
-    font-weight: 400;
+    font-weight: 300; /* on figma it says 400 but here it looks thicker - check design site to see if weights assignment match*/
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 .mensagem-conversa-bocky{
-    background-color: #E9ECEF;
     align-self: flex-start;
+    max-width: 80%;
 }
-.mensagem-conversa-bocky p{
+
+.mensagem-conversa-bocky .message-balloon {
+    background-color: #E9ECEF;
+}
+
+.mensagem-conversa-bocky .message-balloon p{
     color: black;
 }
 
@@ -239,10 +241,29 @@ body {
     width: 25px;
 }
 
-.mensagem-conversa-user{
-    background-color: #A92629;
+.mensagem-conversa-user {
     align-self: flex-end;
+    max-width: 60%;
+}
+
+.mensagem-conversa-user .message-balloon{
+    background-color: #A92629;
+}
+
+.mensagem-conversa-user .message-balloon p {
     color: #FFFFFF;
+}
+
+.message-timestamp{
+    padding: 3px 0px 3px 6px;
+    margin: 0px;
+    color: #4F575E;
+    font-size: 12px;
+    line-height: 18px;
+    font-weight: 400;
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 #bocky-widget-prompt-section {
