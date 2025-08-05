@@ -221,6 +221,9 @@ body {
     font-size: 14px;
     line-height: 21px;
     font-weight: 400;
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .mensagem-conversa-bocky{
@@ -246,8 +249,8 @@ body {
     bottom: 4px;
     display: flex;
     align-items: center;
-        gap: 0.5rem;
-    width: 100%; /* TODO CHANGE TO 100% AND USE PADDINGS */
+    gap: 0.5rem;
+    width: 100%;
 }
 
 #bocky-widget-prompt-section button{
@@ -297,4 +300,7 @@ body {
     line-height: 21px;
     color: #6D6F71;
     margin: 0px;
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
