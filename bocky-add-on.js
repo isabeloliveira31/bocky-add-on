@@ -17,7 +17,6 @@ function esconderConversa() {
 
 function chooseEngine(engine){
     if (engine == 'bocky'){
-        console.log("choosing bocky");
         // switch chatbot header
         document.getElementById('bocky-conversa-header').classList.remove('hidden');
         document.getElementById('copilot-conversa-header').classList.add('hidden');
@@ -25,7 +24,6 @@ function chooseEngine(engine){
         document.getElementById('historico-conversa-bocky').style.display = 'flex';
         document.getElementById('historico-conversa-copilot').style.display = 'none';
     } else if (engine == 'copilot') {
-        console.log("choosing copilot");    
         // switch chatbot header
         document.getElementById('bocky-conversa-header').classList.add('hidden');
         document.getElementById('copilot-conversa-header').classList.remove('hidden');
@@ -33,9 +31,11 @@ function chooseEngine(engine){
         document.getElementById('historico-conversa-bocky').style.display = 'none';
         document.getElementById('historico-conversa-copilot').style.display = 'flex';
     }
+    console.log("before resize");
     resizeIframeToConversaBocky();
+    console.log("after first resize");
     setTimeout(() => {
-        console.log('delayed resize!')
+        console.log('after second (delayed) resize!')
         resizeIframeToConversaBocky();
     }, 1000);
 
