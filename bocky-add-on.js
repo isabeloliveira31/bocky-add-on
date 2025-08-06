@@ -33,6 +33,7 @@ function chooseEngine(engine){
         document.getElementById('historico-conversa-bocky').style.display = 'none';
         document.getElementById('historico-conversa-copilot').style.display = 'flex';
     }
+    resizeIframeToConversaBocky();
 }
 
 function sendButtonAnimation(){
