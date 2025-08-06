@@ -96,10 +96,6 @@ function resizeIframeToConversaBocky(){
         const height = document.getElementById('chatbot-conversa').offsetHeight;
         window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
     });
-    requestAnimationFrame(() => {
-        const height = document.getElementById('chatbot-conversa').offsetHeight;
-        window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
-    });
 }
 
 function addSendButton(){
