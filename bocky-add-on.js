@@ -1,10 +1,10 @@
 function abrirConversa() {
     document.getElementById('bocky-icon').classList.add('close');
     setTimeout(() => {
-        requestAnimationFrame(() => resizeIframeToConversaBocky());
+        resizeIframeToConversaBocky();
         document.getElementById('chatbot-conversa').classList.add('open');
         setTimeout(() => {
-            requestAnimationFrame(() => resizeIframeToConversaBocky());
+            resizeIframeToConversaBocky();
         }, 100);
     }, 150);
 }
@@ -79,7 +79,7 @@ function drawUserText(prompt, engine="bocky"){
         // update scroll position to the latest message
         document.getElementById('historico-conversa-copilot').scrollTop = document.getElementById('historico-conversa-copilot').scrollHeight;
     }
-    requestAnimationFrame(() => resizeIframeToConversaBocky());
+    resizeIframeToConversaBocky();
 }
 
 function getTimestamp(){
@@ -91,9 +91,12 @@ function getTimestamp(){
     return `${hour}:${minute}:${second}`;
 }
 
-function resizeIframeToConversaBocky(){
-    const height = document.getElementById('chatbot-conversa').offsetHeight;
-    window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
+function resizeIframeToConversaBocky();{
+    requestAnimationFrame(() => {
+        console.log("Resize Iframe called!");
+        const height = document.getElementById('chatbot-conversa').offsetHeight;
+        window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
+    });
 }
 
 function addSendButton(){
@@ -135,7 +138,7 @@ prompt_textarea.addEventListener("input", async () => {
     } else{
         removeSendButton();
     }
-    requestAnimationFrame(() => resizeIframeToConversaBocky());
+    resizeIframeToConversaBocky();
     
 });
 

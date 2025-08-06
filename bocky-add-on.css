@@ -83,7 +83,8 @@ body {
 
 #chatbot-conversa {
     background-color: #FFFFFF;
-    border: 1px solid #DEE2E6;
+    /*border: 1px solid #DEE2E6;*/
+    border: 3px solid red;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -92,7 +93,8 @@ body {
     position: fixed;
     bottom: 0px;
     right: 0px;
-    width: 100%;
+    /*width: 100%;*/
+    width: 95%;
     height: auto;
     max-height: 450px;
     box-sizing: border-box;
