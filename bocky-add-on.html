@@ -72,7 +72,7 @@
                 sendButtonAnimation();
                 const prompt = getPromptAndClearInputTextbox();
 
-                const isEngineBocky = document.getElementById('butto-copilot-engine').classList.contains('hidden');
+                const isEngineBocky = document.getElementById('copilot-conversa-header').classList.contains('hidden');
                 const engine = isEngineBocky ? 'bocky' : 'copilot';
 
                 drawUserText(prompt, engine);
