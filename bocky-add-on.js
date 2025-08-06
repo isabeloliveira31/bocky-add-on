@@ -92,10 +92,14 @@ function getTimestamp(){
 }
 
 function resizeIframeToConversaBocky(){
-    setTimeout(() => {
+    requestAnimationFrame(() => {
         const height = document.getElementById('chatbot-conversa').offsetHeight;
         window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
-    }, 100);
+    });
+    requestAnimationFrame(() => {
+        const height = document.getElementById('chatbot-conversa').offsetHeight;
+        window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
+    });
 }
 
 function addSendButton(){
