@@ -2,7 +2,7 @@ function abrirConversa() {
     document.getElementById('bocky-icon').classList.add('close');
     setTimeout(() => {
         requestAnimationFrame(() => resizeIframeToConversaBocky());
-        document.getElementById('bocky-conversa').classList.add('open');
+        document.getElementById('chatbot-conversa').classList.add('open');
         setTimeout(() => {
             requestAnimationFrame(() => resizeIframeToConversaBocky());
         }, 100);
@@ -10,18 +10,28 @@ function abrirConversa() {
 }
 
 function esconderConversa() {
-    document.getElementById('bocky-conversa').classList.remove('open');
+    document.getElementById('chatbot-conversa').classList.remove('open');
     window.parent.postMessage({ type: 'collapse-bocky'}, '*');
     document.getElementById('bocky-icon').classList.remove('close');
 }
 
-function chooseBockyEngine(engine){
-    if (engine == 'traditional'){
-        document.getElementById('bocky-engine-traditional').classList.add('selected');
-        document.getElementById('bocky-engine-copilot').classList.remove('selected');
+function chooseEngine(engine){
+    if (engine == 'bocky'){
+        console.log("choosing bocky");
+        // switch chatbot header
+        document.getElementById('bocky-conversa-header').classList.remove('hidden');
+        document.getElementById('copilot-conversa-header').classList.add('hidden');
+        // switch conversa-historico
+        document.getElementById('historico-conversa-bocky').style.display = 'flex';
+        document.getElementById('historico-conversa-copilot').style.display = 'none';
     } else if (engine == 'copilot') {
-        document.getElementById('bocky-engine-copilot').classList.add('selected');
-        document.getElementById('bocky-engine-traditional').classList.remove('selected');
+        console.log("choosing copilot");    
+        // switch chatbot header
+        document.getElementById('bocky-conversa-header').classList.add('hidden');
+        document.getElementById('copilot-conversa-header').classList.remove('hidden');
+        // switch conversa-historico
+        document.getElementById('historico-conversa-bocky').style.display = 'none';
+        document.getElementById('historico-conversa-copilot').style.display = 'flex';
     }
 }
 
@@ -42,7 +52,7 @@ function getPromptAndClearInputTextbox(){
     return prompt;
 }
 
-function drawUserText(prompt){
+function drawUserText(prompt, engine="bocky"){
     // draws user's message box
     const message = document.createElement('div');
     const messageBalloon = document.createElement('div');
@@ -59,10 +69,16 @@ function drawUserText(prompt){
     messageBalloon.appendChild(messageText);
     message.appendChild(messageBalloon);
     message.appendChild(timestamp);
-    document.getElementById('historico-conversa').appendChild(message);
+    if (engine == 'bocky'){
+        document.getElementById('historico-conversa-bocky').appendChild(message);
+        // update scroll position to the latest message
+        document.getElementById('historico-conversa-bocky').scrollTop = document.getElementById('historico-conversa-bocky').scrollHeight;
 
-    // update scroll position to the latest message
-    document.getElementById('historico-conversa').scrollTop = document.getElementById('historico-conversa').scrollHeight;
+    } else if (engine == 'copilot'){
+        document.getElementById('historico-conversa-copilot').appendChild(message);
+        // update scroll position to the latest message
+        document.getElementById('historico-conversa-copilot').scrollTop = document.getElementById('historico-conversa-copilot').scrollHeight;
+    }
     requestAnimationFrame(() => resizeIframeToConversaBocky());
 }
 
@@ -76,7 +92,7 @@ function getTimestamp(){
 }
 
 function resizeIframeToConversaBocky(){
-    const height = document.getElementById('bocky-conversa').offsetHeight;
+    const height = document.getElementById('chatbot-conversa').offsetHeight;
     window.parent.postMessage({ type: 'expand-conversation', height: height}, '*');
 }
 

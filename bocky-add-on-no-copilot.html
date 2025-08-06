@@ -12,18 +12,18 @@
     <button id="bocky-icon" class="open" type="button" onclick="abrirConversa()" aria-label="Open Bocky widget">
         <img src="icons/bocky-icon.png">
     </button>
-    <div id="bocky-conversa">
-        <div id="bocky-conversa-header">
+    <div id="chatbot-conversa">
+        <div id="chatbot-header">
             <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
-            <a id="bocky-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
+            <a class="header-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
                 <img src="icons/bocky-icon.png">
                 <p class=".heading-6">Bocky</p>
             </a>
-            <button id="bocky-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
+            <button classx\="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <i class="fa-solid fa-minus" style="font-size: 15px; color: black;"></i>
             </button>
         </div>
-        <div id="historico-conversa">
+        <div id="historico-conversa-bocky" class="historico-conversa">
             <!-- secção onde se pode ver as mensagens anteriores-->
         </div>
         <div id="bocky-widget-prompt-section">
@@ -35,9 +35,9 @@
     <script type="text/javascript" src="bocky-add-on.js"></script>
     <script>
         async function sendPrompt() {
-            document.getElementById('bocky-conversa').style.cursor ='wait';
+            document.getElementById('chatbot-conversa').style.cursor ='wait';
             const signedIn = await isSignedIn();
-            document.getElementById('bocky-conversa').style.cursor ='default';
+            document.getElementById('chatbot-conversa').style.cursor ='default';
             if (!signedIn) {
                 removeSendButton();
                 return;
