@@ -34,6 +34,10 @@ function chooseEngine(engine){
         document.getElementById('historico-conversa-copilot').style.display = 'flex';
     }
     resizeIframeToConversaBocky();
+    setTimeout(() => {
+        resizeIframeToConversaBocky();
+    }, 100);
+
 }
 
 function sendButtonAnimation(){
