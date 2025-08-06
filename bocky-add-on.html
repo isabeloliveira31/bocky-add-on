@@ -100,7 +100,9 @@
                 }
                 setTimeout(() => {
                     resizeIframeToConversaBocky();
-                    resizeIframeToConversaBocky();
+                    setTimeout(() => {
+                        resizeIframeToConversaBocky();
+                    }, 50);
                 }, 100);
             } else {
                 removeSendButton();
