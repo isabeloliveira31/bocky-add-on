@@ -91,7 +91,7 @@ function getTimestamp(){
     return `${hour}:${minute}:${second}`;
 }
 
-function resizeIframeToConversaBocky();{
+function resizeIframeToConversaBocky(){
     requestAnimationFrame(() => {
         console.log("Resize Iframe called!");
         const height = document.getElementById('chatbot-conversa').offsetHeight;
