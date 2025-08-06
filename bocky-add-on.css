@@ -204,6 +204,11 @@ body {
     flex-direction: column;
     overflow-y: auto;
     overflow-wrap: break-word;
+    gap: 16px;
+}
+
+.mensagem-conversa{
+    max-width: 80%;
 }
 
 .mensagem-conversa .message-balloon{
@@ -225,7 +230,6 @@ body {
 
 .mensagem-conversa-bocky{
     align-self: flex-start;
-    max-width: 80%;
 }
 
 .mensagem-conversa-bocky .message-balloon {
@@ -243,7 +247,6 @@ body {
 
 .mensagem-conversa-user {
     align-self: flex-end;
-    max-width: 60%;
 }
 
 .mensagem-conversa-user .message-balloon{
@@ -300,9 +303,9 @@ body {
 #bocky-widget-prompt-section textarea{
     flex: 1;
     width: 100%;
-    padding: 5px;
-    margin: 8px 4px 8px 4px;
-    border-radius: 8px;
+    padding: 16px;
+    margin: 8px 0px 8px 0px;
+    border-radius: 4px;
     border: 1px solid rgba(0,0,0,.2);
     box-shadow: 0 1px 2px #00000024;
     bottom: 10px;
@@ -310,6 +313,9 @@ body {
     overflow-y: auto;
     resize: none;
     scrollbar-width: thin;
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
