@@ -35,8 +35,9 @@ function chooseEngine(engine){
     }
     resizeIframeToConversaBocky();
     setTimeout(() => {
+        console.log('delayed resize!')
         resizeIframeToConversaBocky();
-    }, 200);
+    }, 1000);
 
 }
 
