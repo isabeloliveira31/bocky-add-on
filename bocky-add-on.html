@@ -57,6 +57,8 @@
 
     <script>
         async function sendPrompt() {
+            drawResponseText("HEYY", 'bocky');
+            return;
             document.getElementById('chatbot-conversa').style.cursor ='wait';
             const signedIn = await isSignedIn();
             document.getElementById('chatbot-conversa').style.cursor ='default';
@@ -98,7 +100,9 @@
                     }
                     drawResponseText(response.message, 'copilot');
                 }
-                resizeIframeToConversaBocky();
+                setTimeout(() => {
+                    resizeIframeToConversaBocky();
+                }, 200);
             } else {
                 removeSendButton();
             }
@@ -108,11 +112,13 @@
             // draws response text
             const message = document.createElement('div');
             const messageBalloon = document.createElement('div');
+            const balloonPointer = document.createElement('div');
             const messageText = document.createElement('p');
             const timestamp = document.createElement('p');
             message.classList.add('mensagem-conversa');
             message.classList.add('mensagem-conversa-bocky');
             messageBalloon.classList.add('message-balloon');
+            balloonPointer.classList.add('balloon-pointer');
             messageText.textContent = response;
             const timestamp_string =  getTimestamp();
             timestamp.textContent = timestamp_string;
@@ -120,6 +126,7 @@
 
             messageBalloon.appendChild(messageText);
             message.appendChild(messageBalloon);
+            message.appendChild(balloonPointer);
             message.appendChild(timestamp);
             if(engine == 'bocky'){
                 document.getElementById('historico-conversa-bocky').appendChild(message);
