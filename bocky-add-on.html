@@ -57,8 +57,6 @@
 
     <script>
         async function sendPrompt() {
-            drawResponseText("HEYY", 'bocky');
-            return;
             document.getElementById('chatbot-conversa').style.cursor ='wait';
             const signedIn = await isSignedIn();
             document.getElementById('chatbot-conversa').style.cursor ='default';
