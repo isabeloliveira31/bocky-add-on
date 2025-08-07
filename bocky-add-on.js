@@ -150,6 +150,15 @@ prompt_textarea.addEventListener("input", async () => {
     
 });
 
+// Event Listner for iframe resize when the window resizes
+window.addEventListener('resize', async () => {
+    if (document.getElementById('bocky-icon').classList.contains('close')){
+        resizeIframeToConversaBocky();
+    } else {
+        window.parent.postMessage({ type: 'collapse-bocky'}, '*');
+    }
+});
+
 // MSAL Authentication
 
 // configure MSAL credentials

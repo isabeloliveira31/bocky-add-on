@@ -343,9 +343,11 @@ body {
 }
 
 #aviso-podem-ocorrer-erros{
+    padding: 0px 8px 0px 8px;
     font-weight: 300;
     font-size: 12px;
     line-height: 21px;
+    text-align: center;
     color: #6D6F71;
     margin: 0px;
     font-family: 'Klavika', sans-serif;
