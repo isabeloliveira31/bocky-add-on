@@ -217,7 +217,7 @@ async function fetchToken(){
 
     try{
         let accessTokenResponse = await msalInstance.acquireTokenSilent(accessTokenRequest);
-        console.log("Sucessfully got user's token silently");
+        console.log("Sucessfully got user's token silently", accessTokenResponse.accessToken);
         return accessTokenResponse.accessToken;
     } catch (error){
         //Acquire token silent failure, and send an interactive request
