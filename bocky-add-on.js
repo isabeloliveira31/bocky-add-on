@@ -156,7 +156,7 @@ function renderBockyResponse(data){
         refIndex++;
         }
         const index = seen.get(ref);
-        return `<a class="citation-sup" title="${ref}" href="${BACKEND_URI}/content/maisDigital/${ref}"><sup>${index}</sup></a>`;
+        return `<a class="citation-sup" title="${ref}" href="${BACKEND_URI}/content/maisDigital/${ref}"target="_blank"><sup>${index}</sup></a>`;
     });
 
     // create citations section at the end of the message
@@ -280,7 +280,7 @@ async function fetchToken(){
 }
 
 async function getBockyEngineAnswer(token, prompt){
-    const mock_response = {"choices": [{"message": {"content": "Ol\u00e1! Sou o Bocky. Em que posso ajud\u00e1-lo?\n\nPara marcar f\u00e9rias, voc\u00ea pode utilizar o sistema da aplica\u00e7\u00e3o \"F\u00e9rias\". Aqui est\u00e3o os passos principais:\n\n1. **Registro do Pedido**: Utilize a funcionalidade **SaveVacationsToApprove** para registrar os dias de f\u00e9rias desejados. O pedido ficar\u00e1 pendente de aprova\u00e7\u00e3o pela chefia [MANUALTECNICO_Ferias.docx].\n\n2. **Aprova\u00e7\u00e3o Autom\u00e1tica**: Se voc\u00ea pertence a um grupo funcional com aprova\u00e7\u00e3o autom\u00e1tica, o pedido ser\u00e1 aprovado automaticamente e registrado diretamente no sistema SAP atrav\u00e9s da a\u00e7\u00e3o **SubmitVacationsToSAP** [MANUALTECNICO_Ferias.docx].\n\n3. **Visualiza\u00e7\u00e3o e Gest\u00e3o**: Caso seja uma chefia, voc\u00ea pode visualizar e aprovar os pedidos da sua equipa na funcionalidade **VacationsManagement**, garantindo a gest\u00e3o eficiente das aus\u00eancias [MANUALTECNICO_Ferias.docx].\n\nSe precisar de ajuda adicional ou mais detalhes, \u00e9 s\u00f3 dizer! \ud83d\ude0a",},}],};
+    const mock_response = {"choices": [{"message": {"content": "Ol\u00e1! Sou o Bocky. Em que posso ajud\u00e1-lo?\n\nPara marcar f\u00e9rias, voc\u00ea pode utilizar o sistema da aplica\u00e7\u00e3o \"F\u00e9rias\". Aqui est\u00e3o os passos principais:\n\n1. **Registro do Pedido**: Utilize a funcionalidade **SaveVacationsToApprove** para registrar os dias de f\u00e9rias desejados. O pedido ficar\u00e1 pendente de aprova\u00e7\u00e3o pela chefia [Manual de utilizador_Férias.pdf].\n\n2. **Aprova\u00e7\u00e3o Autom\u00e1tica**: Se voc\u00ea pertence a um grupo funcional com aprova\u00e7\u00e3o autom\u00e1tica, o pedido ser\u00e1 aprovado automaticamente e registrado diretamente no sistema SAP atrav\u00e9s da a\u00e7\u00e3o **SubmitVacationsToSAP** [Manual de utilizador_Férias.pdf].\n\n3. **Visualiza\u00e7\u00e3o e Gest\u00e3o**: Caso seja uma chefia, voc\u00ea pode visualizar e aprovar os pedidos da sua equipa na funcionalidade **VacationsManagement**, garantindo a gest\u00e3o eficiente das aus\u00eancias [Manual de utilizador_Férias.pdf].\n\nSe precisar de ajuda adicional ou mais detalhes, \u00e9 s\u00f3 dizer! \ud83d\ude0a",},}],};
     return Promise.resolve(mock_response);
     const response = await fetch('/chat', {
         method: "POST",

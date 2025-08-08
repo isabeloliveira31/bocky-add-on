@@ -247,6 +247,7 @@ body {
 .citation-sup sup{
     cursor: pointer;
     overflow-wrap: break-word;
+    text-decoration: none;
     font-size: 14px;
     font-weight: 300; /* on figma it says 400 but here it looks thicker - check design site to see if weights assignment match*/
     font-family: 'Klavika', sans-serif;
