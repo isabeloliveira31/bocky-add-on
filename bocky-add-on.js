@@ -80,15 +80,16 @@ function drawUserText(prompt, engine="bocky"){
     message.appendChild(timestamp);
     if (engine == 'bocky'){
         document.getElementById('historico-conversa-bocky').appendChild(message);
+        resizeIframeToConversaBocky();
         // update scroll position to the latest message
         document.getElementById('historico-conversa-bocky').scrollTop = document.getElementById('historico-conversa-bocky').scrollHeight;
 
     } else if (engine == 'copilot'){
         document.getElementById('historico-conversa-copilot').appendChild(message);
+        resizeIframeToConversaBocky();
         // update scroll position to the latest message
         document.getElementById('historico-conversa-copilot').scrollTop = document.getElementById('historico-conversa-copilot').scrollHeight;
     }
-    resizeIframeToConversaBocky();
 }
 
 function getTimestamp(){

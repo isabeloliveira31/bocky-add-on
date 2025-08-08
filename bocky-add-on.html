@@ -130,17 +130,18 @@
             message.appendChild(balloonPointer);
             message.appendChild(timestamp);
             if(engine == 'bocky'){
-                document.getElementById('historico-conversa-bocky').appendChild(message);
-                // update scroll position to the latest message
-                document.getElementById('historico-conversa-bocky').scrollTop = document.getElementById('historico-conversa-bocky').scrollHeight;
-                // tto test later document.getElementById('historico-conversa').scrollTop += 100;
+                const historico = document.getElementById('historico-conversa-bocky');
+                historico.appendChild(message);
+                resizeIframeToConversaBocky();
+                // update scroll position place the user's message on top
+               historico.scrollTop = message.previousElementSibling.offsetTop;
             } else if (engine == 'copilot'){
-                document.getElementById('historico-conversa-copilot').appendChild(message);
-                // update scroll position to the latest message
-                document.getElementById('historico-conversa-copilot').scrollTop = document.getElementById('historico-conversa-copilot').scrollHeight;
-                // to test later document.getElementById('historico-conversa').scrollTop += 100;
+                const historico = document.getElementById('historico-conversa-bocky');
+                historico.appendChild(message);
+                resizeIframeToConversaBocky();
+                // update scroll position place the user's message on top
+                historico.scrollTop = message.previousElementSibling.offsetTop;
             }
-            resizeIframeToConversaBocky();
         }
     </script>
   </body>

@@ -255,6 +255,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.citation-sup{
+    text-decoration: none;
+}
+
 .full-citation{
     cursor: pointer;
 }
