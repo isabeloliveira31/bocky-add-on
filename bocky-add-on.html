@@ -134,7 +134,7 @@
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                historico.scrollTop = message.offsetTop - message.previousElementSibling ;
+                historico.scrollTop = message.offsetTop - message.previousElementSibling.clientHeight ;
             } else if (engine == 'copilot'){
                 const historico = document.getElementById('historico-conversa-bocky');
                 historico.appendChild(message);
