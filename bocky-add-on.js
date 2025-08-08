@@ -7,6 +7,7 @@ function abrirConversa() {
             resizeIframeToConversaBocky();
         }, 100);
     }, 150);
+    document.getElementById('bocky-widget-prompt').focus();
 }
 
 function esconderConversa() {
