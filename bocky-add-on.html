@@ -15,7 +15,7 @@
     <div id="chatbot-conversa">
         <div id="bocky-conversa-header" class="chatbot-conversa-header">
             <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
-            <a class="header-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" aria-label="Open Bocky page">
+            <a class="header-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" target='_blank' aria-label="Open Bocky page">
                 <img src="icons/bocky-icon.png">
                 <p>Bocky</p>
             </a>
@@ -88,7 +88,8 @@
                         console.error("Failed at getting bocky response.");
                         return;
                     }
-                    drawResponseText(response.message, 'bocky');
+                    const rendered_response = await renderBockyResponse(response);
+                    drawResponseText(rendered_response, 'bocky');
                 }
                 else {
                     const response = await getCopilotEngineAnswer(prompt);
@@ -109,23 +110,22 @@
             }
         }
 
-        function drawResponseText(response, engine){
+        function drawResponseText(rendered_response, engine){
             // draws response text
             const message = document.createElement('div');
             const messageBalloon = document.createElement('div');
             const balloonPointer = document.createElement('div');
-            const messageText = document.createElement('p');
+
             const timestamp = document.createElement('p');
             message.classList.add('mensagem-conversa');
             message.classList.add('mensagem-conversa-bocky');
             messageBalloon.classList.add('message-balloon');
             balloonPointer.classList.add('balloon-pointer');
-            messageText.textContent = response;
             const timestamp_string =  getTimestamp();
             timestamp.textContent = timestamp_string;
             timestamp.classList.add('message-timestamp');
 
-            messageBalloon.appendChild(messageText);
+            messageBalloon.appendChild(rendered_response);
             message.appendChild(messageBalloon);
             message.appendChild(balloonPointer);
             message.appendChild(timestamp);

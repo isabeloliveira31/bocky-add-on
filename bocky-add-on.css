@@ -214,13 +214,12 @@ body {
 .mensagem-conversa .message-balloon{
     overflow-wrap: break-word;
     border-radius: 4px;
-    padding: 6px;
+    padding: 16px;
     margin: 0px 8px 0px 8px;
 }   
 
-.message-balloon p {
+.message-balloon p, .message-balloon div, .full-citation{
     overflow-wrap: break-word;
-    padding: 16px;
     margin: 0px;
     font-size: 14px;
     line-height: 21px;
@@ -238,8 +237,25 @@ body {
     background-color: #E9ECEF;
 }
 
-.mensagem-conversa-bocky .message-balloon p{
+.mensagem-conversa-bocky .message-balloon p, 
+.mensagem-conversa-bocky .message-balloon div,
+.mensagem-conversa-bocky .message-balloon a,
+.mensagem-conversa-bocky .message-balloon a sup{
     color: black;
+}
+
+.citation-sup sup{
+    cursor: pointer;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    font-weight: 300; /* on figma it says 400 but here it looks thicker - check design site to see if weights assignment match*/
+    font-family: 'Klavika', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.full-citation{
+    cursor: pointer;
 }
 
 .mensagem-conversa-bocky .icon {
