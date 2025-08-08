@@ -136,13 +136,14 @@
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                historico.scrollTop = message.offsetTop;
+                //historico.scrollTop = message.offsetTop;
+                historico.scrollTop = message.previousElementSibling.offsetTop;
             } else if (engine == 'copilot'){
                 const historico = document.getElementById('historico-conversa-bocky');
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                historico.scrollTop = message.previousElementSibling.offsetTop;
+                //historico.scrollTop = message.previousElementSibling.offsetTop;
             }
         }
     </script>
