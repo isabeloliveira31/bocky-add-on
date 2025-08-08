@@ -92,7 +92,7 @@
                     drawResponseText(rendered_response, 'bocky');
                 }
                 else {
-                    // TODO LATER - CHANGE TO PROPER COPILOT ANSWERS
+                    // TODO LATER - CHANGE TO PROPER COPILOT ANSWERS - this is priting to bocky chat!
                     const response = await getBockyEngineAnswer(prompt);
                     if (response == null){
                         console.error("Failed at getting a response from Copilot Bocky.");
@@ -137,6 +137,8 @@
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
                 //historico.scrollTop = message.offsetTop;
+                console.log("prev",  message.previousElementSibling.offsetTop);
+                conosle.log("current",  message.offsetTop);
                 historico.scrollTop = message.previousElementSibling.offsetTop;
             } else if (engine == 'copilot'){
                 const historico = document.getElementById('historico-conversa-bocky');
