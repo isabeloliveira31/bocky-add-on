@@ -136,8 +136,6 @@
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                // this one works! historico.scrollTop = message.previousElementSibling.offsetTop - message.previousElementSibling.clientHeight;
-                // but it's not smooth, let's test the following one
                 message.previousElementSibling.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
@@ -147,7 +145,10 @@
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                historico.scrollTop = message.previousElementSibling.offsetTop - message.previousElementSibling.clientHeight;
+                message.previousElementSibling.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         }
     </script>

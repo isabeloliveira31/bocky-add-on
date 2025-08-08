@@ -82,13 +82,18 @@ function drawUserText(prompt, engine="bocky"){
         document.getElementById('historico-conversa-bocky').appendChild(message);
         resizeIframeToConversaBocky();
         // update scroll position to the latest message
-        document.getElementById('historico-conversa-bocky').scrollTop = document.getElementById('historico-conversa-bocky').scrollHeight;
-
+        message.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+        });
     } else if (engine == 'copilot'){
         document.getElementById('historico-conversa-copilot').appendChild(message);
         resizeIframeToConversaBocky();
         // update scroll position to the latest message
-        document.getElementById('historico-conversa-copilot').scrollTop = document.getElementById('historico-conversa-copilot').scrollHeight;
+        message.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+        });
     }
 }
 
