@@ -92,12 +92,14 @@
                     drawResponseText(rendered_response, 'bocky');
                 }
                 else {
-                    const response = await getCopilotEngineAnswer(prompt);
+                    // TODO LATER - CHANGE TO PROPER COPILOT ANSWERS
+                    const response = await getBockytEngineAnswer(prompt);
                     if (response == null){
                         console.error("Failed at getting a response from Copilot Bocky.");
                         return;
                     }
-                    drawResponseText(response.message, 'copilot');
+                    const rendered_response = await renderBockyResponse(response);
+                    drawResponseText(rendered_response, 'copilot');
                 }
                 setTimeout(() => {
                     resizeIframeToConversaBocky();
@@ -134,7 +136,7 @@
                 historico.appendChild(message);
                 resizeIframeToConversaBocky();
                 // update scroll position place the user's message on top
-                historico.scrollTop = message.offsetTop - message.previousElementSibling.clientHeight ;
+                historico.scrollTop = message.offsetTop;
             } else if (engine == 'copilot'){
                 const historico = document.getElementById('historico-conversa-bocky');
                 historico.appendChild(message);
