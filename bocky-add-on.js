@@ -217,20 +217,45 @@ function renderBockyResponse(data){
     return message;
 }
 
+function isChatBocky(){
+    return !document.getElementById('bocky-conversa-header').classList.contains('hidden');
+}
+
 
 // Event listners
 const prompt_textarea = document.getElementById('bocky-widget-prompt');
 
-// Event Listner to user's input textbox to only activate the send button when the user has written any non whitespace character
+
 prompt_textarea.addEventListener("input", async () => {
+    // only display send button when the user has written any non whitespace character
     const canSendPrompt = prompt_textarea.value.trim().length > 0;
+
     if(canSendPrompt){
-        addSendButton();
+        const engine = isChatBocky ? 'bocky' : 'copilot';
+        const historico = document.getElementById(`historico-conversa-${engine}`);
+        const lastText = historico.lastElementChild;
+        if (lastText && lastText.classList.contains('mensagem-conversa-user')){
+            // bocky message hasn't "arrived" yet so the user must wait
+            removeSendButton();
+        } else {
+            addSendButton();
+        }
     } else{
         removeSendButton();
     }
+
+    const maxHeight = 150;
+    prompt_textarea.style.height = "auto";
+    let currentHeight = prompt_textarea.scrollHeight;
+    if (currentHeight < maxHeight){
+        prompt_textarea.style.overflowY = "hidden";
+    } else {
+        currentHeight = maxHeight;
+        prompt_textarea.style.overflowY = "auto";
+    }
+    prompt_textarea.style.height = currentHeight + "px";
+
     resizeIframeToConversaBocky();
-    
 });
 
 // Event Listner for iframe resize when the window resizes
