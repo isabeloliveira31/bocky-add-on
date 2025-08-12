@@ -1,7 +1,7 @@
 javascript:(function(){ 
     const iframe= document.createElement('iframe'); 
     iframe.id = 'bocky-iframe'; 
-    iframe.src = 'https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html'; 
+    iframe.src = 'https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on-mock-response.html'; 
     iframe.allowTransparency = true; 
     iframe.scrolling = 'no'; 
     Object.assign(iframe.style, { 
