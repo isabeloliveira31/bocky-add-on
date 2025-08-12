@@ -272,7 +272,7 @@ window.addEventListener('resize', async () => {
 // configure MSAL credentials
 const msalConfig = {
     auth: {
-        clientId: "b05ba4e6-7f47-4261-80a8-37dd5574cfc2",
+        clientId: "4fe15b48-5867-4eb4-a575-355d7316cefd",
         authority: "https://login.microsoftonline.com/01c74dcc-1e91-4c9c-b3a0-88030994bf82",
         redirectUri: "https://isabeloliveira31.github.io/bocky-add-on/bocky-add-on.html"
     },
