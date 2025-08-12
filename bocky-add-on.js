@@ -370,7 +370,6 @@ async function getBockyEngineAnswer(token, prompt){
                 }
             }
         }),
-        credentials: "include"
     });
     const data = await response.json();
     console.log("A resposta é ", data.choices[0].message.content);
