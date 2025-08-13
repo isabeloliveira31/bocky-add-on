@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bocky Popup Widget</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Bocky Popup Widget">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="bocky-add-on.css">
+    <script type="text/javascript" src="https://alcdn.msauth.net/browser/2.38.2/js/msal-browser.min.js"></script>
+  </head>
+  <body>
+    <button id="bocky-icon" class="open" type="button" onclick="abrirConversa()" aria-label="Open Bocky widget">
+        <img id="bocky-icon-img" src="icons/bocky-icon.png">
+    </button>
+    <div id="chatbot-conversa">
+        <div id="bocky-conversa-header" class="chatbot-conversa-header">
+            <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
+            <a class="header-link-icon" href="https://app-backend-tyifxu7gn33ba.azurewebsites.net/" target='_blank' aria-label="Open Bocky page">
+                <img src="icons/bocky-icon.png">
+                <p>Bocky</p>
+            </a>
+            <button id="button-copilot-engine" class="change-engine" type="button" onclick="chooseEngine('copilot')" aria-label="Select chat powered by Copilot">
+                <img class="change-engine-img icon" src="icons/copilot-icon.png" width="15px" height="15px">
+                <p>Alterar para chat Copilot</p>
+            </button>
+            <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
+                <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
+            </button>
+        </div>
+        <div id="copilot-conversa-header" class="chatbot-conversa-header hidden">
+            <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
+            <a class="header-link-icon" href="https://m365.cloud.microsoft/" target='_blank' aria-label="Open Copilot page">
+                <img src="icons/copilot-icon.png">
+                <p>Copilot</p>
+            </a>
+            <button id="button-bocky-engine" class="change-engine" type="button" onclick="chooseEngine('bocky')" aria-label="Select chat powered by Bocky">
+                <img class="change-engine-img icon" src="icons/bocky-icon.png" width="15px" height="15px">
+                <p>Alterar para chat Bocky</p>
+            </button>
+            <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
+                <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
+            </button>
+        </div>
+        <div id="historico-conversa-bocky" class="historico-conversa">
+            <!-- secção onde se pode ver as mensagens anteriores do bocky-->
+        </div>
+        <div id="historico-conversa-copilot" class="historico-conversa" style="display: none;">
+            <!-- secção onde se pode ver as mensagens anteriores do copilot-->
+        </div>
+        <div id="bocky-widget-prompt-section">
+            <!-- widget's bottom section - contains the user's input textbox and the send button -->
+            <textarea id="bocky-widget-prompt" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
+        </div>
+        <p id="aviso-podem-ocorrer-erros">Respostas geradas por Inteligência Artificial. Podem ocorrer erros. Este conteúdo é baseado em dados fornecidos pela plataforma +Digital</p>
+    </div>
+    <script type="text/javascript" src="bocky-add-on.js"></script>
+
+    <script>
+        async function sendPrompt() {
+            document.getElementById('chatbot-conversa').style.cursor ='wait';
+            const signedIn = await isSignedIn();
+            document.getElementById('chatbot-conversa').style.cursor ='default';
+            if (!signedIn) {
+                removeSendButton();
+                return;
+            }
+
+            const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
+            if (promptIsntEmpty){
+                addSendButton();
+
+                sendButtonAnimation();
+                const prompt = getPromptAndClearInputTextbox();
+
+                const isEngineBocky = document.getElementById('copilot-conversa-header').classList.contains('hidden');
+                const engine = isEngineBocky ? 'bocky' : 'copilot';
+
+                drawUserText(prompt, engine);
+                
+                if(isEngineBocky){
+                    const token = await fetchToken();
+                    if (token == null){
+                        console.error("Failed at getting user's authentication token.");
+                        return;
+                    }
+                    const response = await getBockyEngineAnswer(token, prompt);
+                    if (response == null){
+                        console.error("Failed at getting bocky response.");
+                        return;
+                    }
+                    const rendered_response = await renderBockyResponse(response);
+                    drawResponseText(rendered_response, 'bocky');
+                }
+                else {
+                    // TODO LATER - CHANGE TO PROPER COPILOT ANSWERS - this is priting to bocky chat!
+                    const response = await getBockyEngineAnswer(prompt);
+                    if (response == null){
+                        console.error("Failed at getting a response from Copilot Bocky.");
+                        return;
+                    }
+                    const rendered_response = await renderBockyResponse(response);
+                    drawResponseText(rendered_response, 'copilot');
+                }
+                document.getElementById("bocky-widget-prompt").dispatchEvent(new Event('input'));
+                setTimeout(() => {
+                    resizeIframeToConversaBocky();
+                    setTimeout(() => {
+                        resizeIframeToConversaBocky();
+                    }, 50);
+                }, 100);
+            } else {
+                removeSendButton();
+            }
+        }
+
+        function drawResponseText(rendered_response, engine){
+            // TODO rename class mensage-conversa-bocky (since its used for both bocky and copilot)
+            // draws response text
+            const message = document.createElement('div');
+            const messageBalloon = document.createElement('div');
+
+            const timestamp = document.createElement('p');
+            message.classList.add('mensagem-conversa');
+            message.classList.add('mensagem-conversa-bocky');
+            messageBalloon.classList.add('message-balloon');
+            const timestamp_string =  getTimestamp();
+            timestamp.textContent = timestamp_string;
+            timestamp.classList.add('message-timestamp');
+
+            messageBalloon.appendChild(rendered_response);
+            message.appendChild(messageBalloon);
+            message.appendChild(timestamp);
+            if(engine == 'bocky'){
+                const historico = document.getElementById('historico-conversa-bocky');
+                historico.appendChild(message);
+                resizeIframeToConversaBocky();
+                // update scroll position place the user's message on top
+                message.previousElementSibling.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            } else if (engine == 'copilot'){
+                const historico = document.getElementById('historico-conversa-bocky');
+                historico.appendChild(message);
+                resizeIframeToConversaBocky();
+                // update scroll position place the user's message on top
+                message.previousElementSibling.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+    </script>
+  </body>
+</html>
