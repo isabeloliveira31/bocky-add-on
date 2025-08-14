@@ -352,7 +352,7 @@ async function getBockyEngineAnswer(token, prompt){
             resolve(mock_response);
         }, 1000);
     }); */
-    const response = await fetch('https://app-backend-tyifxu7gn33ba.azurewebsites.net/chat', {
+    const response = await fetch('https://app-backend-tyifxu7gn33ba.azurewebsites.net/chatWidget', {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`,
