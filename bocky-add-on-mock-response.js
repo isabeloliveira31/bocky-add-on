@@ -63,13 +63,11 @@ function drawUserText(prompt, engine="bocky"){
     // draws user's message box
     const message = document.createElement('div');
     const messageBalloon = document.createElement('div');
-    const balloonPointer = document.createElement('div');
     const messageText = document.createElement('p');
     const timestamp = document.createElement('p');
     message.classList.add('mensagem-conversa');
     message.classList.add('mensagem-conversa-user');
     messageBalloon.classList.add('message-balloon');
-    balloonPointer.classList.add('balloon-pointer');
     messageText.textContent = prompt;
     const timestamp_string =  getTimestamp();
     timestamp.textContent = timestamp_string;
@@ -77,7 +75,6 @@ function drawUserText(prompt, engine="bocky"){
 
     messageBalloon.appendChild(messageText);
     message.appendChild(messageBalloon);
-    message.appendChild(balloonPointer);
     message.appendChild(timestamp);
     if (engine == 'bocky'){
         document.getElementById('historico-conversa-bocky').appendChild(message);

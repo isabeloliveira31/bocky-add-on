@@ -97,7 +97,7 @@ body {
     max-height: 450px;
     box-sizing: border-box;
     padding: calc(2vh + 1rem);
-    box-shadow: 0 2px 4px #00000024;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px;
     opacity: 0;
     pointer-events: none;
     transform: scale(0.3);
@@ -209,14 +209,27 @@ body {
     position: relative;
     height: auto;
     word-break: break-word;
+    z-index: 0;
 }
 
-.mensagem-conversa .message-balloon{
+.message-balloon{
     overflow-wrap: break-word;
     border-radius: 4px;
     padding: 16px;
     margin: 0px 8px 0px 8px;
-}   
+    position: relative;
+}
+
+.message-balloon::before{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+     content: "";
+    background-color: inherit;
+    transform: rotate(45deg);
+    top: 8px;
+}
 
 .message-balloon p, .message-balloon div, .full-citation{
     overflow-wrap: break-word;
@@ -280,23 +293,12 @@ body {
     color: #FFFFFF;
 }
 
-.balloon-pointer{
-    rotate: 45deg;
-    z-index: -1;
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 8px;
-}
-
-.mensagem-conversa-user .balloon-pointer{
+.mensagem-conversa-user .message-balloon::before{
     right: 4px;
-    background-color: #A92629;
 }
 
-.mensagem-conversa-bocky .balloon-pointer{
+.mensagem-conversa-bocky .message-balloon::before{
     left: 4px;
-    background-color: #E9ECEF;
 }
 
 .message-timestamp{

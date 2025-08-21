@@ -118,20 +118,17 @@
             // draws response text
             const message = document.createElement('div');
             const messageBalloon = document.createElement('div');
-            const balloonPointer = document.createElement('div');
 
             const timestamp = document.createElement('p');
             message.classList.add('mensagem-conversa');
             message.classList.add('mensagem-conversa-bocky');
             messageBalloon.classList.add('message-balloon');
-            balloonPointer.classList.add('balloon-pointer');
             const timestamp_string =  getTimestamp();
             timestamp.textContent = timestamp_string;
             timestamp.classList.add('message-timestamp');
 
             messageBalloon.appendChild(rendered_response);
             message.appendChild(messageBalloon);
-            message.appendChild(balloonPointer);
             message.appendChild(timestamp);
             if(engine == 'bocky'){
                 const historico = document.getElementById('historico-conversa-bocky');

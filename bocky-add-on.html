@@ -51,7 +51,7 @@
             <!-- widget's bottom section - contains the user's input textbox and the send button -->
             <textarea id="bocky-widget-prompt" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
         </div>
-        <p id="aviso-podem-ocorrer-erros">Respostas geradas por Inteligência Artificial. Podem ocorrer erros. Este conteúdo é baseado em dados fornecidos pela plataforma +Digital</p>
+        <p id="aviso-podem-ocorrer-erros">Respostas geradas por Inteligência Artificial. Podem ocorrer erros. Este conteúdo é baseado em dados fornecidos pela portal +Digital</p>
     </div>
     <script type="text/javascript" src="bocky-add-on.js"></script>
 
@@ -118,20 +118,17 @@
             // draws response text
             const message = document.createElement('div');
             const messageBalloon = document.createElement('div');
-            const balloonPointer = document.createElement('div');
 
             const timestamp = document.createElement('p');
             message.classList.add('mensagem-conversa');
             message.classList.add('mensagem-conversa-bocky');
             messageBalloon.classList.add('message-balloon');
-            balloonPointer.classList.add('balloon-pointer');
             const timestamp_string =  getTimestamp();
             timestamp.textContent = timestamp_string;
             timestamp.classList.add('message-timestamp');
 
             messageBalloon.appendChild(rendered_response);
             message.appendChild(messageBalloon);
-            message.appendChild(balloonPointer);
             message.appendChild(timestamp);
             if(engine == 'bocky'){
                 const historico = document.getElementById('historico-conversa-bocky');
