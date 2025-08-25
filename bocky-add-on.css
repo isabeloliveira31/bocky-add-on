@@ -54,8 +54,8 @@ body {
     align-items: center;
     justify-content: center;
     position: fixed;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 20vw;
+    padding-right: 20vw;
     bottom: 0px;
     right: 0px;
     width: 95%;

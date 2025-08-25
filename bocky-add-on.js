@@ -59,7 +59,7 @@ function getPromptAndClearInputTextbox(){
     return prompt;
 }
 
-function drawUserText(prompt, engine="bocky"){
+function drawUserText(prompt, engine="bocky", resizeIframe=true){
     // draws user's message box
     const message = document.createElement('div');
     const messageBalloon = document.createElement('div');
@@ -78,20 +78,24 @@ function drawUserText(prompt, engine="bocky"){
     message.appendChild(timestamp);
     if (engine == 'bocky'){
         document.getElementById('historico-conversa-bocky').appendChild(message);
-        resizeIframeToConversaBocky();
-        // update scroll position to the latest message
-        message.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-        });
+        if(resizeIframe){
+            resizeIframeToConversaBocky();
+            // update scroll position to the latest message
+            message.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
+        }
     } else if (engine == 'copilot'){
         document.getElementById('historico-conversa-copilot').appendChild(message);
-        resizeIframeToConversaBocky();
-        // update scroll position to the latest message
-        message.scrollIntoView({
-            behavior: 'smooth',
-            block: 'end',
-        });
+        if(resizeIframe){
+            resizeIframeToConversaBocky();
+            // update scroll position to the latest message
+            message.scrollIntoView({
+                behavior: 'smooth',
+                block: 'end',
+            });
+        }
     }
 }
 
@@ -236,7 +240,7 @@ prompt_textarea.addEventListener("input", async () => {
     const canSendPrompt = prompt_textarea.value.trim().length > 0;
 
     if(canSendPrompt){
-        const engine = isChatBocky ? 'bocky' : 'copilot';
+        const engine = isChatBocky() ? 'bocky' : 'copilot';
         const historico = document.getElementById(`historico-conversa-${engine}`);
         const lastText = historico.lastElementChild;
         if (lastText && lastText.classList.contains('mensagem-conversa-user')){
@@ -270,6 +274,11 @@ window.addEventListener('resize', async () => {
     } else {
         window.parent.postMessage({ type: 'collapse-bocky'}, '*');
     }
+});
+
+// Event listner to restore conversation from sessionStorage on page reload
+document.addEventListener('DOMContentLoaded', () => {
+    restoreConversationHistory();
 });
 
 // MSAL Authentication
@@ -496,7 +505,7 @@ async function sendPrompt() {
     }
 }
 
-function drawResponseText(rendered_response, engine){
+function drawResponseText(rendered_response, engine, resizeIframe=true){
     // draws response text
     const message = document.createElement('div');
     const messageBalloon = document.createElement('div');
@@ -515,21 +524,25 @@ function drawResponseText(rendered_response, engine){
     if(engine == 'bocky'){
         const historico = document.getElementById('historico-conversa-bocky');
         historico.appendChild(message);
-        resizeIframeToConversaBocky();
-        // update scroll position place the user's message on top
-        message.previousElementSibling.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        if (resizeIframe){
+            resizeIframeToConversaBocky();
+            // update scroll position place the user's message on top
+            message.previousElementSibling.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     } else if (engine == 'copilot'){
         const historico = document.getElementById('historico-conversa-copilot');
         historico.appendChild(message);
-        resizeIframeToConversaBocky();
-        // update scroll position place the user's message on top
-        message.previousElementSibling.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+        if (resizeIframe){
+            resizeIframeToConversaBocky();
+            // update scroll position place the user's message on top
+            message.previousElementSibling.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     }
 }
 
@@ -552,4 +565,35 @@ function apagarConversa(engine){
         sessionStorage.removeItem("messages_copilot");
     }
     resizeIframeToConversaBocky();
+}
+
+function restoreConversationHistory(){
+    const messages_bocky = JSON.parse(sessionStorage.getItem("messages_bocky"));
+    if (!(messages_bocky === null || messages_bocky === "")){
+        for (let i = 0; i < messages_bocky.length; i++){
+            if (messages_bocky[i].role === 'user'){
+                drawUserText(messages_bocky[i].content, 'bocky', false);
+            } else {
+                const rendered_response = renderBockyResponse({"choices": [{"message": {"content": messages_bocky[i].content,},}],});
+                drawResponseText(rendered_response, 'bocky', false);
+            }
+        }
+    }
+    const messages_copilot = JSON.parse(sessionStorage.getItem("messages_copilot"));
+    if (!(messages_copilot === null || messages_copilot === "")){
+        for (let i = 0; i < messages_copilot.length; i++){
+            if (messages_copilot[i].role === 'user'){
+                drawUserText(messages_copilot[i].content, 'copilot', false);
+            } else {
+                const rendered_response = renderCopilotResponse({"message": messages_copilot[i].content});
+                drawResponseText(rendered_response, 'copilot', false);
+            }
+        }
+    }
+
+    document.getElementById("historico-conversa-bocky").scrollTop = document.getElementById("historico-conversa-bocky").scrollHeight;
+    const historico_copilot = document.getElementById("historico-conversa-copilot");
+    if (historico_copilot){
+        historico_copilot.scrollTop = historico_copilot.scrollHeight;
+    }
 }
