@@ -403,7 +403,8 @@ async function sendPrompt() {
     }
 
     const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
-    if (promptIsntEmpty){
+    const sendButton = document.getElementById('send-prompt-button');
+    if (promptIsntEmpty && sendButton){
         addSendButton();
 
         sendButtonAnimation();
