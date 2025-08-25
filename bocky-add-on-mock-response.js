@@ -415,7 +415,7 @@ async function sendPrompt() {
             drawResponseText(rendered_response, 'bocky');
         }
         else {
-            const response = await getBockyCopilotAnswer(prompt);
+            const response = await getCopilotAnswer(prompt);
             if (response == null){
                 console.error("Failed at getting a response from Copilot Bocky.");
                 return;
