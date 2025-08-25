@@ -19,23 +19,9 @@
                 <img src="icons/bocky-icon.png">
                 <p>Bocky</p>
             </a>
-            <button id="button-copilot-engine" class="change-engine" type="button" onclick="chooseEngine('copilot')" aria-label="Select chat powered by Copilot">
-                <img class="change-engine-img icon" src="icons/copilot-icon.png" width="15px" height="15px">
-                <p>Alterar para chat Copilot</p>
-            </button>
-            <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
-                <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
-            </button>
-        </div>
-        <div id="copilot-conversa-header" class="chatbot-conversa-header hidden">
-            <!--widget's top section - contém o ícone e nome e o botão de esconder a conversa -->
-            <a class="header-link-icon" href="https://m365.cloud.microsoft/" target='_blank' aria-label="Open Copilot page">
-                <img src="icons/copilot-icon.png">
-                <p>Copilot</p>
-            </a>
-            <button id="button-bocky-engine" class="change-engine" type="button" onclick="chooseEngine('bocky')" aria-label="Select chat powered by Bocky">
-                <img class="change-engine-img icon" src="icons/bocky-icon.png" width="15px" height="15px">
-                <p>Alterar para chat Bocky</p>
+            <button class="delete-chatbot-conversation" type="button" onclick="apagarConversa('bocky')" aria-label="Apagar histórico da conversa com o Bocky">
+                <img src="icons/trash-icon.svg">
+                <p>Apagar Conversa</p>
             </button>
             <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
@@ -43,9 +29,6 @@
         </div>
         <div id="historico-conversa-bocky" class="historico-conversa">
             <!-- secção onde se pode ver as mensagens anteriores do bocky-->
-        </div>
-        <div id="historico-conversa-copilot" class="historico-conversa" style="display: none;">
-            <!-- secção onde se pode ver as mensagens anteriores do copilot-->
         </div>
         <div id="chatbot-widget-prompt-section">
             <!-- widget's bottom section - contains the user's input textbox and the send button -->

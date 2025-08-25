@@ -99,9 +99,8 @@ function getTimestamp(){
     const raw_timestamp = new Date();
     const hour = String(raw_timestamp.getHours()).padStart(2, '0');
     const minute = String(raw_timestamp.getMinutes()).padStart(2, '0');
-    const second = String(raw_timestamp.getSeconds()).padStart(2, '0');
     
-    return `${hour}:${minute}:${second}`;
+    return `${hour}:${minute}`;
 }
 
 function resizeIframeToConversaBocky(){
@@ -540,4 +539,17 @@ function drawErrorText(error_description, engine){
     messageString.textContent = error_description;
     error_message.appendChild(messageString);
     drawResponseText(error_message, engine);
+}
+
+function apagarConversa(engine){
+    if(engine == 'bocky'){
+        const historico = document.getElementById('historico-conversa-bocky');
+        historico.innerHTML = "";
+        sessionStorage.removeItem("messages_bocky");
+    } else if (engine == 'copilot'){
+        const historico = document.getElementById('historico-conversa-copilot');
+        historico.innerHTML = "";
+        sessionStorage.removeItem("messages_copilot");
+    }
+    resizeIframeToConversaBocky();
 }

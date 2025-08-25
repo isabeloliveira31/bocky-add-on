@@ -19,10 +19,16 @@
                 <img src="icons/bocky-icon.png">
                 <p>Bocky</p>
             </a>
-            <button id="button-copilot-engine" class="change-engine" type="button" onclick="chooseEngine('copilot')" aria-label="Select chat powered by Copilot">
-                <img class="change-engine-img icon" src="icons/copilot-icon.png" width="15px" height="15px">
-                <p>Alterar para chat Copilot</p>
-            </button>
+            <div class="chatbot-header-buttons">
+                <button id="button-copilot-engine" class="change-engine" type="button" onclick="chooseEngine('copilot')" aria-label="Select chat powered by Copilot">
+                    <img class="change-engine-img icon" src="icons/copilot-icon.png" width="19px" height="19px">
+                    <p>Alterar para chat Copilot</p>
+                </button>
+                <button class="delete-chatbot-conversation" type="button" onclick="apagarConversa('bocky')" aria-label="Apagar histórico da conversa com o Bocky">
+                    <img src="icons/trash-icon.svg">
+                    <p>Apagar Conversa</p>
+                </button>
+            </div>
             <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
             </button>
@@ -33,10 +39,16 @@
                 <img src="icons/copilot-icon.png">
                 <p>Copilot</p>
             </a>
-            <button id="button-bocky-engine" class="change-engine" type="button" onclick="chooseEngine('bocky')" aria-label="Select chat powered by Bocky">
-                <img class="change-engine-img icon" src="icons/bocky-icon.png" width="15px" height="15px">
-                <p>Alterar para chat Bocky</p>
-            </button>
+            <div class="chatbot-header-buttons">
+                <button id="button-bocky-engine" class="change-engine" type="button" onclick="chooseEngine('bocky')" aria-label="Select chat powered by Bocky">
+                    <img class="change-engine-img icon" src="icons/bocky-icon.png" width="19px" height="19px">
+                    <p>Alterar para chat Bocky</p>
+                </button>
+                <button class="delete-chatbot-conversation" type="button" onclick="apagarConversa('copilot')" aria-label="Apagar histórico da conversa com o Copilot">
+                    <img src="icons/trash-icon.svg">
+                    <p>Apagar Conversa</p>
+                </button>
+            </div>
             <button class="chatbot-conversa-close" type="button" onclick="esconderConversa()" aria-label="Esconder Bocky Widget">
                 <img src="icons/close-icon.png" width="15px" height="15px" aria-label="hide chat button">
             </button>
