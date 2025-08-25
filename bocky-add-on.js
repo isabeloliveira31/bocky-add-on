@@ -214,6 +214,14 @@ function renderBockyResponse(data){
     return message;
 }
 
+function renderCopilotResponse(data){
+    // from the Copilot response we "convert" it to an HTML div with text and, if applicable, with the file references/citations links
+    const message = document.createElement('div');
+    let messageString = data.message.content.trim();
+    message.appendChild(messageString);
+    return message;
+}
+
 function isChatBocky(){
     return !document.getElementById('bocky-conversa-header').classList.contains('hidden');
 }
@@ -381,4 +389,98 @@ function getCopilotEngineAnswer(prompt){
     return Promise.resolve({
         message: "Hello I'm Copilot Bocky",
     });
+}
+
+
+async function sendPrompt() {
+    document.getElementById('chatbot-conversa').style.cursor ='wait';
+    const signedIn = await isSignedIn();
+    document.getElementById('chatbot-conversa').style.cursor ='default';
+    if (!signedIn) {
+        removeSendButton();
+        return;
+    }
+
+    const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
+    if (promptIsntEmpty){
+        addSendButton();
+
+        sendButtonAnimation();
+        const prompt = getPromptAndClearInputTextbox();
+
+        const isEngineBocky = isChatBocky();
+        const engine = isEngineBocky ? 'bocky' : 'copilot';
+
+        drawUserText(prompt, engine);
+        
+        if(isEngineBocky){
+            const token = await fetchToken();
+            if (token == null){
+                console.error("Failed at getting user's authentication token.");
+                return;
+            }
+            const response = await getBockyEngineAnswer(token, prompt);
+            if (response == null){
+                console.error("Failed at getting bocky response.");
+                return;
+            }
+            const rendered_response = await renderBockyResponse(response);
+            drawResponseText(rendered_response, 'bocky');
+        }
+        else {
+            const response = await getBockyCopilotAnswer(prompt);
+            if (response == null){
+                console.error("Failed at getting a response from Copilot Bocky.");
+                return;
+            }
+            const rendered_response = await renderCopilotResponse(response);
+            drawResponseText(rendered_response, 'copilot');
+        }
+        document.getElementById("bocky-widget-prompt").dispatchEvent(new Event('input'));
+        setTimeout(() => {
+            resizeIframeToConversaBocky();
+            setTimeout(() => {
+                resizeIframeToConversaBocky();
+            }, 50);
+        }, 100);
+    } else {
+        removeSendButton();
+    }
+}
+
+function drawResponseText(rendered_response, engine){
+    // draws response text
+    const message = document.createElement('div');
+    const messageBalloon = document.createElement('div');
+
+    const timestamp = document.createElement('p');
+    message.classList.add('mensagem-conversa');
+    message.classList.add('mensagem-conversa-bocky');
+    messageBalloon.classList.add('message-balloon');
+    const timestamp_string =  getTimestamp();
+    timestamp.textContent = timestamp_string;
+    timestamp.classList.add('message-timestamp');
+
+    messageBalloon.appendChild(rendered_response);
+    message.appendChild(messageBalloon);
+    message.appendChild(timestamp);
+    if(engine == 'bocky'){
+        const historico = document.getElementById('historico-conversa-bocky');
+        historico.appendChild(message);
+        resizeIframeToConversaBocky();
+        // update scroll position place the user's message on top
+        message.previousElementSibling.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    } else if (engine == 'copilot'){
+        const historico = document.getElementById('historico-conversa-copilot');
+        historico.appendChild(message);
+        resizeIframeToConversaBocky();
+        // update scroll position place the user's message on top
+        message.previousElementSibling.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
 }

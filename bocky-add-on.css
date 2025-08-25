@@ -236,7 +236,7 @@ body {
     margin: 0px;
     font-size: 14px;
     line-height: 21px;
-    font-weight: 300; /* on figma it says 400 but here it looks thicker - check design site to see if weights assignment match*/
+    font-weight: 300;
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -262,7 +262,7 @@ body {
     overflow-wrap: break-word;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 300; /* on figma it says 400 but here it looks thicker - check design site to see if weights assignment match*/
+    font-weight: 300;
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -307,7 +307,7 @@ body {
     color: #4F575E;
     font-size: 12px;
     line-height: 18px;
-    font-weight: 400;
+    font-weight: 300;
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -361,7 +361,7 @@ body {
     scrollbar-width: thin;
     font-size: 14px;
     line-height: 21px;
-    font-weight: 400;
+    font-weight: 300;
     font-family: 'Klavika', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

@@ -57,14 +57,6 @@
 
     <script>
         async function sendPrompt() {
-            document.getElementById('chatbot-conversa').style.cursor ='wait';
-            const signedIn = await isSignedIn();
-            document.getElementById('chatbot-conversa').style.cursor ='default';
-            if (!signedIn) {
-                removeSendButton();
-                return;
-            }
-
             const promptIsntEmpty = prompt_textarea.value.trim().length > 0;
             if (promptIsntEmpty){
                 addSendButton();
@@ -78,12 +70,7 @@
                 drawUserText(prompt, engine);
                 
                 if(isEngineBocky){
-                    const token = await fetchToken();
-                    if (token == null){
-                        console.error("Failed at getting user's authentication token.");
-                        return;
-                    }
-                    const response = await getBockyEngineAnswer(token, prompt);
+                    const response = await getBockyEngineAnswer("", prompt);
                     if (response == null){
                         console.error("Failed at getting bocky response.");
                         return;
