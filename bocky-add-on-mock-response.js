@@ -7,7 +7,7 @@ function abrirConversa() {
             resizeIframeToConversaBocky();
         }, 100);
     }, 150);
-    document.getElementById('bocky-widget-prompt').focus();
+    document.getElementById('chatbot-widget-prompt').focus();
 }
 
 function esconderConversa() {
@@ -53,9 +53,9 @@ function sendButtonAnimation(){
 
 function getPromptAndClearInputTextbox(){
     // clears the input textbox and returns the prompt
-    const prompt = document.getElementById('bocky-widget-prompt').value;                // get user's prompt
-    document.getElementById('bocky-widget-prompt').value = '';                          // clear input textbox
-    document.getElementById('bocky-widget-prompt').dispatchEvent(new Event('input'));   // trigger textbox's input event listner (to disable send button since the text box has just been emptied)
+    const prompt = document.getElementById('chatbot-widget-prompt').value;                // get user's prompt
+    document.getElementById('chatbot-widget-prompt').value = '';                          // clear input textbox
+    document.getElementById('chatbot-widget-prompt').dispatchEvent(new Event('input'));   // trigger textbox's input event listner (to disable send button since the text box has just been emptied)
     return prompt;
 }
 
@@ -115,7 +115,7 @@ function addSendButton(){
     if(document.getElementById('send-prompt-button')){
         return;
     }
-    const parent_element = document.getElementById('bocky-widget-prompt-section');
+    const parent_element = document.getElementById('chatbot-widget-prompt-section');
 
     const button = document.createElement('button');
     button.type ='button';
@@ -125,7 +125,7 @@ function addSendButton(){
 
     const icon = document.createElement('img');
     icon.src = 'icons/send-icon.png';
-    icon.id = 'bocky-widget-prompt-send-icon';
+    icon.id = 'chatbot-widget-prompt-send-icon';
     icon.setAttribute('aria-label', 'Submit Bocky Prompt');
 
     button.appendChild(icon);
@@ -220,7 +220,7 @@ function isChatBocky(){
 
 
 // Event listners
-const prompt_textarea = document.getElementById('bocky-widget-prompt');
+const prompt_textarea = document.getElementById('chatbot-widget-prompt');
 
 
 prompt_textarea.addEventListener("input", async () => {

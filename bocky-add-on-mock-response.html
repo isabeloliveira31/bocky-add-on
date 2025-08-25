@@ -47,9 +47,9 @@
         <div id="historico-conversa-copilot" class="historico-conversa" style="display: none;">
             <!-- secção onde se pode ver as mensagens anteriores do copilot-->
         </div>
-        <div id="bocky-widget-prompt-section">
+        <div id="chatbot-widget-prompt-section">
             <!-- widget's bottom section - contains the user's input textbox and the send button -->
-            <textarea id="bocky-widget-prompt" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
+            <textarea id="chatbot-widget-prompt" placeholder="Escreve uma mensagem para o Bocky" aria-label="Write Bocky prompt" onkeydown="if(event.key === 'Enter'){event.preventDefault(); sendPrompt();}" required="required" spellcheck="false"></textarea>
         </div>
         <p id="aviso-podem-ocorrer-erros">Respostas geradas por Inteligência Artificial. Podem ocorrer erros. Este conteúdo é baseado em dados fornecidos pela plataforma +Digital</p>
     </div>
@@ -88,7 +88,7 @@
                     const rendered_response = await renderBockyResponse(response);
                     drawResponseText(rendered_response, 'copilot');
                 }
-                document.getElementById("bocky-widget-prompt").dispatchEvent(new Event('input'));
+                document.getElementById("chatbot-widget-prompt").dispatchEvent(new Event('input'));
                 setTimeout(() => {
                     resizeIframeToConversaBocky();
                     setTimeout(() => {
