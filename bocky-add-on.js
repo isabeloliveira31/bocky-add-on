@@ -217,7 +217,8 @@ function renderBockyResponse(data){
 function renderCopilotResponse(data){
     // from the Copilot response we "convert" it to an HTML div with text and, if applicable, with the file references/citations links
     const message = document.createElement('div');
-    let messageString = data.message.content.trim();
+    const messageString = document.createElement('p');
+    messageString.textContent = data.message.trim();
     message.appendChild(messageString);
     return message;
 }
@@ -428,7 +429,7 @@ async function sendPrompt() {
             drawResponseText(rendered_response, 'bocky');
         }
         else {
-            const response = await getCopilotAnswer(prompt);
+            const response = await getCopilotEngineAnswer(prompt);
             if (response == null){
                 console.error("Failed at getting a response from Copilot Bocky.");
                 return;
