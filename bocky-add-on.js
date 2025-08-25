@@ -351,13 +351,18 @@ async function fetchToken(){
     }
 }
 
-async function getBockyEngineAnswer(token, prompt){
+async function getBockyEngineAnswer(token){
     /*const mock_response = {"choices": [{"message": {"content": "Ol\u00e1! Sou o Bocky. Em que posso ajud\u00e1-lo?\n\nPara marcar f\u00e9rias, voc\u00ea pode utilizar o sistema da aplica\u00e7\u00e3o \"F\u00e9rias\". Aqui est\u00e3o os passos principais:\n\n1. **Registro do Pedido**: Utilize a funcionalidade **SaveVacationsToApprove** para registrar os dias de f\u00e9rias desejados. O pedido ficar\u00e1 pendente de aprova\u00e7\u00e3o pela chefia [Manual de utilizador_Férias.pdf].\n\n2. **Aprova\u00e7\u00e3o Autom\u00e1tica**: Se voc\u00ea pertence a um grupo funcional com aprova\u00e7\u00e3o autom\u00e1tica, o pedido ser\u00e1 aprovado automaticamente e registrado diretamente no sistema SAP atrav\u00e9s da a\u00e7\u00e3o **SubmitVacationsToSAP** [Manual de utilizador_Férias.pdf].\n\n3. **Visualiza\u00e7\u00e3o e Gest\u00e3o**: Caso seja uma chefia, voc\u00ea pode visualizar e aprovar os pedidos da sua equipa na funcionalidade **VacationsManagement**, garantindo a gest\u00e3o eficiente das aus\u00eancias [Manual de utilizador_Férias.pdf].\n\nSe precisar de ajuda adicional ou mais detalhes[Manual da Isabel.pdf], \u00e9 s\u00f3 dizer! \ud83d\ude0a",},}],};
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(mock_response);
         }, 1000);
     }); */
+    const messages_bocky = JSON.parse(sessionStorage.getItem("messages_bocky"));
+    if (messages_bocky === null){
+        return {"choices": [{"message": {"content": "Houve um erro. Tente novamente por favor.",},}],};
+    }
+    
     const response = await fetch('https://app-backend-tyifxu7gn33ba.azurewebsites.net/chatWidget', {
         method: "POST",
         headers: {
@@ -365,7 +370,7 @@ async function getBockyEngineAnswer(token, prompt){
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            messages: [{content: prompt, role: "user"}],
+            messages: messages_bocky,
             "stream": false,
             "context": {
                 "overrides": {
@@ -419,24 +424,66 @@ async function sendPrompt() {
             const token = await fetchToken();
             if (token == null){
                 console.error("Failed at getting user's authentication token.");
+                drawErrorText("There was an error, please try again.", "bocky");
                 return;
             }
-            const response = await getBockyEngineAnswer(token, prompt);
+
+            // update sessionStorage with the new prompt
+            let messages_bocky = JSON.parse(sessionStorage.getItem("messages_bocky"));
+            if (messages_bocky === null){
+                messages_bocky = [{content: prompt, role: "user"}];
+            } else {
+                messages_bocky.push({content: prompt, role: "user"});
+            }
+            sessionStorage.setItem("messages_bocky", JSON.stringify(messages_bocky));
+
+            const response = await getBockyEngineAnswer(token);
             if (response == null){
-                console.error("Failed at getting bocky response.");
+                console.error("Failed at getting a response from Bocky.");
+                drawErrorText("There was an error, please try again.", "bocky");
                 return;
             }
+            const response_message = response.choices[0].message.content.trim();
             const rendered_response = await renderBockyResponse(response);
             drawResponseText(rendered_response, 'bocky');
+
+            // update sessionStorage with the new response
+            messages_bocky = JSON.parse(sessionStorage.getItem("messages_bocky"));
+            if (messages_bocky === null){
+                messages_bocky = [{content: response_message, role: "assistant"}];
+            } else {
+                messages_bocky.push({content: response_message, role: "assistant"});
+            }
+            sessionStorage.setItem("messages_bocky", JSON.stringify(messages_bocky));
         }
         else {
+            // update sessionStorage with the new prompt
+            let messages_copilot = JSON.parse(sessionStorage.getItem("messages_copilot"));
+            if (messages_copilot === null){
+                messages_copilot = [{content: prompt, role: "user"}];
+            } else {
+                messages_copilot.push({content: prompt, role: "user"});
+            }
+            sessionStorage.setItem("messages_copilot", JSON.stringify(messages_copilot));
+
             const response = await getCopilotEngineAnswer(prompt);
             if (response == null){
-                console.error("Failed at getting a response from Copilot Bocky.");
+                console.error("Failed at getting a response from Copilot.");
+                drawErrorText("There was an error, please try again.", "copilot");
                 return;
             }
+            const response_message = response.message.trim();
             const rendered_response = await renderCopilotResponse(response);
             drawResponseText(rendered_response, 'copilot');
+
+            // update sessionStorage with the new response
+            messages_copilot = JSON.parse(sessionStorage.getItem("messages_copilot"));
+            if (messages_copilot === null){
+                messages_copilot = [{content: response_message, role: "assistant"}];
+            } else {
+                messages_copilot.push({content: response_message, role: "assistant"});
+            }
+            sessionStorage.setItem("messages_copilot", JSON.stringify(messages_copilot));
         }
         document.getElementById("chatbot-widget-prompt").dispatchEvent(new Event('input'));
         setTimeout(() => {
@@ -485,4 +532,12 @@ function drawResponseText(rendered_response, engine){
             block: 'start'
         });
     }
+}
+
+function drawErrorText(error_description, engine){
+    const error_message = document.createElement('div');
+    const messageString = document.createElement('p');
+    messageString.textContent = error_description;
+    error_message.appendChild(messageString);
+    drawResponseText(error_message, engine);
 }
