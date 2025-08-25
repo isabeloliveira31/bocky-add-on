@@ -7,7 +7,7 @@ function abrirConversa() {
             resizeIframeToConversaBocky();
         }, 100);
     }, 150);
-    document.getElementById('chatbot-widget-prompt').focus();
+    document.getElementById('chatbot-widget-prompt');
 }
 
 function esconderConversa() {

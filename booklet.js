@@ -24,21 +24,27 @@ javascript:(function(){
     document.body.appendChild(iframe); 
     window.addEventListener('message', (event) => { 
         if (event.data.type === 'expand-conversation') { 
-            if(window.innerWidth < 450){
+            if(window.innerWidth < 600){
                 iframe.style.width = '90vw';
-                console.log("size A (< 450)");
-            } else if (window.innerWidth < 700){
-                iframe.style.width = '55vw';
-                console.log("size B (< 700)");
+                console.log("size A (< 600)");
+            } else if (window.innerWidth < 750){
+                iframe.style.width = '80vw';
+                console.log("size B (< 750)");
             } else if (window.innerWidth < 900){
-                iframe.style.width = '40vw';
+                iframe.style.width = '70vw';
                 console.log('size C (<900)');
-            } else if (window.innerWidth < 1550){
-                iframe.style.width = '30vw';
-                console.log ('size D (<1550)');
+            } else if (window.innerWidth < 1050) {
+                iframe.style.width = '60vw';
+                console.log('size D (<1050)');
+            } else if (window.innerWidth < 1250) {
+                iframe.style.width = '50vw';
+                console.log('size E (<1200)');
+            } else if (window.innerWidth < 2550){
+                iframe.style.width = '40vw';
+                console.log ('size F (<1550)');
             } else {
-                iframe.style.width = '25vw';
-                console.log('size E (> 1550)');
+                iframe.style.width = '30vw';
+                console.log('size G (> 1550)');
             }
             /* iframe.style.width = 'clamp(20vw, 70rem,90vw)'; OR 10vw+12rem  OR max(20vw,200rem) */
             /* iframe.style.width = event.data.width + 'px'; */

@@ -54,12 +54,12 @@ body {
     align-items: center;
     justify-content: center;
     position: fixed;
-    padding-left: 16px; /* padding suggestion from figma design - TODO "add" responsiveness*/
+    padding-left: 16px;
     padding-right: 16px;
     bottom: 0px;
     right: 0px;
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 95%;
     overflow: hidden;
     opacity: 1;
     pointer-events: auto;
@@ -94,7 +94,7 @@ body {
     right: 0px;
     width: 100%;
     height: auto;
-    max-height: 450px;
+    max-height: 650px;
     box-sizing: border-box;
     padding: calc(2vh + 1rem);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px 0px;
@@ -135,7 +135,7 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 7px;
+    gap: 16px;
     text-decoration: none;
     color: black;
     margin: 0px;
@@ -152,7 +152,7 @@ body {
     object-fit: contain;
     max-width: 100%;
     max-height: 100%;
-    width: 43px;
+    width: 34px;
     margin: 0px;
     padding: 0px;   
 }
