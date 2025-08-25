@@ -19,7 +19,7 @@ javascript:(function(){
         /* bottom: 'calc(0.5vh + 0.2rem)', */ /* adapted from 8px */
         /* right: 'calc(0.5vh + 0.2rem)', */
         background: 'none', 
-        backgroundColor: 'none'
+        backgroundColor: 'transparent'
     }); 
     document.body.appendChild(iframe); 
     window.addEventListener('message', (event) => { 
@@ -38,20 +38,18 @@ javascript:(function(){
                 console.log('size D (<1050)');
             } else if (window.innerWidth < 1250) {
                 iframe.style.width = '50vw';
-                console.log('size E (<1200)');
+                console.log('size E (<1250)');
             } else if (window.innerWidth < 2550){
                 iframe.style.width = '40vw';
-                console.log ('size F (<1550)');
+                console.log ('size F (<2550)');
             } else {
                 iframe.style.width = '30vw';
-                console.log('size G (> 1550)');
+                console.log('size G (> 2550)');
             }
-            /* iframe.style.width = 'clamp(20vw, 70rem,90vw)'; OR 10vw+12rem  OR max(20vw,200rem) */
-            /* iframe.style.width = event.data.width + 'px'; */
-            iframe.style.height = event.data.height + 'px'; /* use clamp with visualViewport.height * 0.9 as max */
+            iframe.style.height = event.data.height + 'px';
         } else if (event.data.type === 'collapse-bocky') { 
-            iframe.style.width = 'calc(6.5vh + 1rem)';
-            iframe.style.height = 'calc(6.5vh + 1rem)';
+            iframe.style.width = 'calc(7vh + 1.3rem)';
+            iframe.style.height = 'calc(7vh + 1.3rem)';
         }
     }); 
 })();
